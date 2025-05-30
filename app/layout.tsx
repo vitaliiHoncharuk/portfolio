@@ -1,61 +1,35 @@
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import "./globals.css";
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import { Toaster } from '@/components/ui/toaster';
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: "Vitalii Honcharuk - Senior React Developer",
-  description: "Senior React Developer with 5+ years crafting performant, scalable solutions for FinTech leaders. Specialized in microfrontend architecture and performance optimization.",
-  keywords: ["React", "TypeScript", "FinTech", "Developer", "Portfolio", "Senior Developer"],
-  authors: [{ name: "Vitalii Honcharuk" }],
-  openGraph: {
-    title: "Vitalii Honcharuk - Senior React Developer",
-    description: "Senior React Developer with 5+ years crafting performant, scalable solutions for FinTech leaders.",
-    type: "website",
-    locale: "en_US",
-    url: "https://vitaliihoncharuk.com",
-    siteName: "Vitalii Honcharuk Portfolio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vitalii Honcharuk - Senior React Developer",
-    description: "Senior React Developer with 5+ years crafting performant, scalable solutions for FinTech leaders.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  title: 'Vitalii Honcharuk | Senior React Developer',
+  description: 'Senior React Developer with 5+ years of experience specializing in FinTech, performance optimization, and microfrontend architecture.',
+  keywords: ['React', 'Developer', 'Vitalii Honcharuk', 'Frontend', 'TypeScript', 'FinTech', 'Performance'],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased">
-        <Header />
-        {children}
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
