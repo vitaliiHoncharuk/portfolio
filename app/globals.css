@@ -128,25 +128,111 @@
 
 /* Advanced text effects */
 .gradient-text {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    #60a5fa,
+    #c084fc,
+    #f472b6
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 3s ease-in-out infinite;
+}
+
+/* Alternative gradient styles */
+.gradient-text-gold {
   @apply bg-clip-text text-transparent;
-  background: linear-gradient(135deg, 
-              hsl(var(--primary)) 0%, 
-              hsl(var(--secondary)) 50%, 
-              hsl(var(--accent)) 100%);
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
+  background: linear-gradient(
+    135deg,
+    #fbbf24 0%,
+    #f59e0b 50%,
+    #fbbf24 100%
+  );
 }
 
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+.gradient-text-subtle {
+  @apply bg-clip-text text-transparent;
+  background: linear-gradient(
+    to right,
+    hsl(var(--foreground)),
+    hsl(var(--foreground) / 0.7)
+  );
 }
 
+.gradient-text-aurora {
+  @apply bg-clip-text text-transparent;
+  background: linear-gradient(
+    -45deg,
+    #ff006e,
+    #8338ec,
+    #3a86ff,
+    #06ffa5
+  );
+  background-size: 300% 300%;
+  animation: gradient-flow 4s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Text shimmer effect */
+.text-shimmer {
+  color: hsl(var(--foreground) / 0.8);
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    hsl(var(--foreground)) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+/* Glow effect for important text */
 .text-glow {
   text-shadow: 
     0 0 20px hsl(var(--primary) / 0.5),
     0 0 40px hsl(var(--primary) / 0.3),
     0 0 60px hsl(var(--primary) / 0.1);
+}
+
+/* Chrome text effect */
+.text-chrome {
+  background: linear-gradient(
+    to bottom,
+    #eee 0%,
+    #999 50%,
+    #777 51%,
+    #555 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* Framer Motion and React Three Fiber styles */
@@ -282,4 +368,51 @@ h4 { @apply text-xl md:text-2xl lg:text-3xl leading-[1.4]; }
 ::selection {
   background: hsl(var(--primary) / 0.3);
   color: hsl(var(--foreground));
+}
+
+/* 3D CSS utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Glow animations */
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 10px currentColor);
+  }
+  50% {
+    filter: brightness(1.2) drop-shadow(0 0 20px currentColor);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Orbit animations */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(100px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(100px) rotate(-360deg);
+  }
+}
+
+/* Float animation */
+@keyframes float-vertical {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }

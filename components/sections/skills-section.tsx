@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import SkillsCanvas from "@/components/3d/skills-canvas";
+// import SkillsCanvas from "@/components/3d/skills-canvas";
+// import CSSSkills from "@/components/3d/css-skills";
+import CSSSkillsCards from "@/components/3d/css-skills-cards";
 
 const skillCategories = [
   {
@@ -52,7 +54,12 @@ const skillCategories = [
 
 export default function SkillsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section
@@ -78,49 +85,16 @@ export default function SkillsSection() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Skills List */}
-          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
-            {skillCategories.map((category, categoryIndex) => (
-              <motion.div
-                key={categoryIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 + categoryIndex * 0.1 }}
-              >
-                <h3 className="text-xl font-bold mb-4 text-primary">{category.name}</h3>
-                <div className="space-y-4">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div key={skillIndex}>
-                      <div className="flex justify-between mb-1">
-                        <span className="text-foreground/80">{skill.name}</span>
-                        <span className="text-primary">{skill.level}%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <motion.div
-                          className="bg-primary h-2 rounded-full"
-                          initial={{ width: 0 }}
-                          animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-                          transition={{ duration: 0.8, delay: 0.4 + skillIndex * 0.05 }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* 3D Skills Sphere */}
-          <motion.div
-            className="lg:col-span-2 h-[400px] md:h-[500px]"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <SkillsCanvas />
-          </motion.div>
-        </div>
+        {/* Skills Display */}
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0 }}
+          animate={isInView && mounted ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          suppressHydrationWarning
+        >
+          {mounted && <CSSSkillsCards />}
+        </motion.div>
       </div>
     </section>
   );

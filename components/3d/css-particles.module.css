@@ -1,0 +1,133 @@
+.particleContainer {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.particleField {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateX(var(--mouse-x)) translateY(var(--mouse-y));
+  transition: transform 0.2s ease-out;
+}
+
+.particle {
+  --particle-x: 0px;
+  --particle-y: 0px;
+  --particle-z: 0px;
+  --particle-size: 3px;
+  --particle-delay: 0s;
+  
+  position: absolute;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  background: #64ffda;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: 
+    translate3d(
+      calc(var(--particle-x) - 50%), 
+      calc(var(--particle-y) - 50%), 
+      var(--particle-z)
+    );
+  box-shadow: 
+    0 0 10px rgba(100, 255, 218, 0.6),
+    0 0 20px rgba(100, 255, 218, 0.3);
+  animation: 
+    particleFloat 10s ease-in-out infinite,
+    particlePulse 3s ease-in-out infinite;
+  animation-delay: var(--particle-delay);
+  opacity: 0.6;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: 
+      translate3d(
+        calc(var(--particle-x) - 50%), 
+        calc(var(--particle-y) - 50%), 
+        var(--particle-z)
+      );
+  }
+  25% {
+    transform: 
+      translate3d(
+        calc(var(--particle-x) - 50% + 20px), 
+        calc(var(--particle-y) - 50% - 20px), 
+        calc(var(--particle-z) + 30px)
+      );
+  }
+  50% {
+    transform: 
+      translate3d(
+        calc(var(--particle-x) - 50% - 20px), 
+        calc(var(--particle-y) - 50% + 20px), 
+        calc(var(--particle-z) - 30px)
+      );
+  }
+  75% {
+    transform: 
+      translate3d(
+        calc(var(--particle-x) - 50% + 10px), 
+        calc(var(--particle-y) - 50% + 10px), 
+        calc(var(--particle-z) + 20px)
+      );
+  }
+}
+
+@keyframes particlePulse {
+  0%, 100% {
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.9;
+    filter: brightness(1.5);
+  }
+}
+
+/* Create depth with size variation */
+.particle:nth-child(3n) {
+  --particle-size: 2px;
+  opacity: 0.4;
+  animation-duration: 12s, 4s;
+}
+
+.particle:nth-child(5n) {
+  --particle-size: 4px;
+  opacity: 0.8;
+  animation-duration: 8s, 2.5s;
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .particle {
+    filter: brightness(1.2);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .particleField {
+    transform: none;
+  }
+  
+  .particle {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Performance optimization for mobile */
+@media (max-width: 768px) {
+  .particle {
+    animation: particlePulse 3s ease-in-out infinite;
+    animation-delay: var(--particle-delay);
+  }
+}

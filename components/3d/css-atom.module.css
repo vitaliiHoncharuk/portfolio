@@ -1,0 +1,148 @@
+.atomContainer {
+  --mouse-x: 0deg;
+  --mouse-y: 0deg;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.atom {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--mouse-y)) rotateY(var(--mouse-x));
+  transition: transform 0.1s ease-out;
+  animation: atomFloat 6s ease-in-out infinite;
+}
+
+@keyframes atomFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(var(--mouse-y)) rotateY(var(--mouse-x));
+  }
+  50% {
+    transform: translateY(-20px) rotateX(var(--mouse-y)) rotateY(var(--mouse-x));
+  }
+}
+
+.nucleus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #64ffda, #4ecdc4);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 30px rgba(100, 255, 218, 0.8),
+    0 0 60px rgba(100, 255, 218, 0.4),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: nucleusPulse 2s ease-in-out infinite;
+}
+
+@keyframes nucleusPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(100, 255, 218, 0.3);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+
+.orbit1 {
+  transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+  animation: orbit1Rotate 3s linear infinite;
+}
+
+.orbit2 {
+  transform: translate(-50%, -50%) rotateX(60deg) rotateY(0deg);
+  animation: orbit2Rotate 4s linear infinite;
+}
+
+.orbit3 {
+  transform: translate(-50%, -50%) rotateX(-60deg) rotateY(0deg);
+  animation: orbit3Rotate 5s linear infinite;
+}
+
+@keyframes orbit1Rotate {
+  from {
+    transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbit2Rotate {
+  from {
+    transform: translate(-50%, -50%) rotateX(60deg) rotateY(0deg) rotateZ(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotateX(60deg) rotateY(0deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbit3Rotate {
+  from {
+    transform: translate(-50%, -50%) rotateX(-60deg) rotateY(0deg) rotateZ(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotateX(-60deg) rotateY(0deg) rotateZ(360deg);
+  }
+}
+
+.electron {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #64ffda, #4ecdc4);
+  border-radius: 50%;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 0 20px rgba(100, 255, 218, 0.8),
+    0 0 40px rgba(100, 255, 218, 0.4);
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .orbit {
+    border-color: rgba(100, 255, 218, 0.4);
+  }
+  
+  .nucleus,
+  .electron {
+    filter: brightness(1.2);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .atom,
+  .orbit1,
+  .orbit2,
+  .orbit3,
+  .nucleus {
+    animation: none;
+  }
+  
+  .atom {
+    transform: rotateX(-20deg) rotateY(20deg);
+  }
+}

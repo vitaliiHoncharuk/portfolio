@@ -38,6 +38,11 @@ export default function Header() {
       }
     }
     
+    // Initialize state based on current scroll position after mount
+    if (typeof window !== 'undefined') {
+      handleScroll()
+    }
+    
     window.addEventListener('scroll', handleScroll)
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -114,7 +119,7 @@ export default function Header() {
               className="group border-primary text-primary hover:bg-primary hover:text-background transition-all duration-300"
             >
               <a href="#contact" className="flex items-center gap-2">
-                Let's Talk
+                Let&apos;s Talk
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
@@ -190,7 +195,7 @@ export default function Header() {
                     size="lg"
                   >
                     <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
-                      Let's Talk
+                      Let&apos;s Talk
                     </a>
                   </Button>
                 </motion.div>

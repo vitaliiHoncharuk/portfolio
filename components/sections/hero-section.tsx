@@ -5,16 +5,24 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Download, Github, Linkedin, Mail, Code2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import HeroCanvas from "@/components/3d/hero-canvas";
+// import HeroCanvas from "@/components/3d/hero-canvas";
+import CSSAtom from "@/components/3d/css-atom";
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
     const handleMouseMove = (e: MouseEvent) => {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (rect) {
@@ -27,14 +35,14 @@ export default function HeroSection() {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mounted]);
 
   return (
     <motion.section
       id="home"
       ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ opacity, scale }}
+      style={mounted ? { opacity, scale } : {}}
     >
       {/* Enhanced background with multiple layers */}
       <div className="absolute inset-0 mesh-gradient" />
@@ -42,22 +50,26 @@ export default function HeroSection() {
       <div className="absolute inset-0 noise" />
       
       {/* Floating elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
-        animate={{
-          x: mousePosition.x * 50,
-          y: mousePosition.y * 50,
-        }}
-        transition={{ type: "spring", damping: 30 }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"
-        animate={{
-          x: mousePosition.x * -30,
-          y: mousePosition.y * -30,
-        }}
-        transition={{ type: "spring", damping: 30 }}
-      />
+      {mounted && (
+        <>
+          <motion.div
+            className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+            animate={{
+              x: mousePosition.x * 50,
+              y: mousePosition.y * 50,
+            }}
+            transition={{ type: "spring", damping: 30 }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"
+            animate={{
+              x: mousePosition.x * -30,
+              y: mousePosition.y * -30,
+            }}
+            transition={{ type: "spring", damping: 30 }}
+          />
+        </>
+      )}
 
       <div className="container mx-auto px-4 pt-32 pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
         <motion.div 
@@ -74,7 +86,7 @@ export default function HeroSection() {
             className="inline-flex items-center gap-2 mb-6"
           >
             <Code2 className="w-5 h-5 text-primary" />
-            <span className="text-primary font-mono text-sm">console.log('Hello, World!');</span>
+            <span className="text-primary font-mono text-sm">console.log(&apos;Hello, World!&apos;);</span>
           </motion.div>
           
           <motion.h1 
@@ -83,7 +95,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="block text-3xl md:text-5xl lg:text-6xl mb-2">I'm</span>
+            <span className="block text-3xl md:text-5xl lg:text-6xl mb-2">I&apos;m</span>
             <span className="block gradient-text text-5xl md:text-7xl lg:text-8xl">Vitalii Honcharuk</span>
           </motion.h1>
           
@@ -179,8 +191,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
+          suppressHydrationWarning
         >
-          <HeroCanvas />
+          {mounted && <CSSAtom />}
         </motion.div>
       </div>
 

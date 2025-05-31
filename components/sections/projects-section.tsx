@@ -144,7 +144,7 @@ export default function ProjectsSection() {
             transition={{ duration: 0.6 }}
             className="mb-4"
           >
-            <span className="text-primary font-mono text-sm">// featured work</span>
+            <span className="text-primary font-mono text-sm">{/* featured work */}</span>
           </motion.div>
           
           <motion.h2
