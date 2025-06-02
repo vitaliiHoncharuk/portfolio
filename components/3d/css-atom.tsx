@@ -1,258 +1,215 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 export default function CSSAtom() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
-  // Pre-generate particle data to prevent hydration issues
-  const [particleData] = useState(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 4 + 1,
-      colorIndex: Math.floor(Math.random() * 4),
-      initialX: Math.random() * 600 - 300,
-      initialY: Math.random() * 600 - 300,
-      animateX: Math.random() * 100 - 50,
-      duration: Math.random() * 8 + 4,
-      delay: Math.random() * 5,
-    }));
-  });
 
   useEffect(() => {
     setMounted(true);
-    
-    // Check for reduced motion preference
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduceMotion(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    
-    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     
+    let rafId: number;
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       
-      const rect = containerRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const x = (e.clientY - centerY) / rect.height * 30;
-      const y = (e.clientX - centerX) / rect.width * 30;
-      
-      setRotation({ x: -x, y });
+      rafId = requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        
+        const rect = containerRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const x = (e.clientY - centerY) / rect.height * 20;
+        const y = (e.clientX - centerX) / rect.width * 20;
+        
+        setRotation({ x: -x, y });
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [mounted]);
+
+  if (!mounted) return null;
 
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-full flex items-center justify-center perspective-1000"
+      className="relative w-full h-full flex items-center justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
-        className="relative w-72 h-72 md:w-80 md:h-80 transform-gpu"
+      <div
+        className="atom-container relative w-72 h-72 md:w-80 md:h-80"
         style={{
-          transformStyle: "preserve-3d",
-          rotateX: rotation.x,
-          rotateY: rotation.y,
-        }}
-        animate={{
-          rotateZ: 360,
-          scale: isHovered ? 1.1 : 1,
-        }}
-        transition={{
-          rotateZ: {
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          },
-          scale: {
-            duration: 0.5,
-            ease: "easeOut",
-          },
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isHovered ? 1.05 : 1})`,
+          transition: 'transform 0.3s ease-out',
+          willChange: 'transform',
+          contain: 'layout style paint',
         }}
       >
-        {/* Nucleus with glow effect */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div 
-            className="relative"
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            {/* Outer glow */}
-            <div className="absolute inset-0 w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 blur-xl" />
-            {/* Core */}
-            <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-primary via-secondary to-accent shadow-2xl">
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-primary/50 to-transparent" />
-              <div className="absolute inset-0 rounded-full animate-pulse bg-white/20" />
+        {/* Nucleus */}
+        <div className="nucleus absolute inset-0 flex items-center justify-center">
+          <div className="relative">
+            <div className="nucleus-glow absolute inset-0 w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 blur-xl" />
+            <div className="nucleus-core relative w-20 h-20 rounded-full bg-gradient-to-br from-primary via-secondary to-accent shadow-xl">
+              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-primary/40 to-transparent" />
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Electron Orbits with enhanced effects */}
-        <div className="absolute inset-0 transform rotate-45">
-          <div className="absolute inset-0 rounded-full border-2 border-primary/40 shadow-[0_0_20px_rgba(96,165,250,0.5)]" />
-          <motion.div
-            className="absolute w-8 h-8 rounded-full shadow-2xl"
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{
-              top: "-4px",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-primary to-blue-600 relative">
-              <div className="absolute inset-0 rounded-full bg-white/40 blur-sm" />
-              <motion.div 
-                className="absolute -inset-1 rounded-full bg-primary/50 blur-md"
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </div>
-          </motion.div>
+        {/* Electron Orbits */}
+        <div className="orbit orbit-1 absolute inset-0">
+          <div className="orbit-path absolute inset-0 rounded-full border border-primary/30" />
+          <div className="electron electron-1 absolute w-6 h-6 rounded-full bg-gradient-to-br from-primary to-blue-500 shadow-lg" />
         </div>
 
-        <div className="absolute inset-0 transform -rotate-45">
-          <div className="absolute inset-0 rounded-full border-2 border-secondary/40 shadow-[0_0_20px_rgba(192,132,252,0.5)]" />
-          <motion.div
-            className="absolute w-8 h-8 rounded-full shadow-2xl"
-            animate={{
-              rotate: -360,
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{
-              bottom: "-4px",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-secondary to-purple-600 relative">
-              <div className="absolute inset-0 rounded-full bg-white/40 blur-sm" />
-              <motion.div 
-                className="absolute -inset-1 rounded-full bg-secondary/50 blur-md"
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.7 }}
-              />
-            </div>
-          </motion.div>
+        <div className="orbit orbit-2 absolute inset-0">
+          <div className="orbit-path absolute inset-0 rounded-full border border-secondary/30" />
+          <div className="electron electron-2 absolute w-6 h-6 rounded-full bg-gradient-to-br from-secondary to-purple-500 shadow-lg" />
         </div>
 
-        <div className="absolute inset-0 transform rotate-90">
-          <div className="absolute inset-0 rounded-full border-2 border-accent/40 shadow-[0_0_20px_rgba(251,191,36,0.5)]" />
-          <motion.div
-            className="absolute w-8 h-8 rounded-full shadow-2xl"
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{
-              top: "50%",
-              right: "-4px",
-              transform: "translateY(-50%)",
-            }}
-          >
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-accent to-amber-600 relative">
-              <div className="absolute inset-0 rounded-full bg-white/40 blur-sm" />
-              <motion.div 
-                className="absolute -inset-1 rounded-full bg-accent/50 blur-md"
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, delay: 1.4 }}
-              />
-            </div>
-          </motion.div>
+        <div className="orbit orbit-3 absolute inset-0">
+          <div className="orbit-path absolute inset-0 rounded-full border border-accent/30" />
+          <div className="electron electron-3 absolute w-6 h-6 rounded-full bg-gradient-to-br from-accent to-yellow-500 shadow-lg" />
         </div>
+
+        {/* Reduced particles for performance */}
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="particle absolute rounded-full pointer-events-none"
+            style={{
+              width: '3px',
+              height: '3px',
+              background: ['rgba(96, 165, 250, 0.6)', 'rgba(192, 132, 252, 0.6)', 'rgba(244, 114, 182, 0.6)', 'rgba(251, 191, 36, 0.6)'][i],
+              left: `${25 + i * 15}%`,
+              top: `${30 + i * 10}%`,
+              animation: `float-${i + 1} ${4 + i}s ease-in-out infinite`,
+            }}
+          />
+        ))}
+      </div>
+
+      <style jsx>{`
+        .atom-container {
+          animation: rotate 15s linear infinite;
+        }
         
-        {/* Energy field effect on hover */}
-        {isHovered && (
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1.2, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 blur-xl animate-pulse" />
-          </motion.div>
-        )}
-      </motion.div>
-
-      {/* Enhanced floating particles */}
-      {mounted && !reduceMotion && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {particleData.map((particle) => {
-            const colors = [
-              'rgba(96, 165, 250, 0.8)',
-              'rgba(192, 132, 252, 0.8)',
-              'rgba(244, 114, 182, 0.8)',
-              'rgba(251, 191, 36, 0.8)'
-            ];
-            
-            return (
-              <motion.div
-                key={particle.id}
-                className="absolute rounded-full"
-                style={{
-                  width: particle.size + 'px',
-                  height: particle.size + 'px',
-                  background: `radial-gradient(circle, ${colors[particle.colorIndex]}, transparent)`,
-                }}
-                initial={{
-                  x: particle.initialX,
-                  y: particle.initialY,
-                  scale: 0,
-                }}
-                animate={{
-                  x: [null, particle.animateX],
-                  y: [null, -100, 100],
-                  scale: [0, 1, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: particle.duration,
-                  repeat: Infinity,
-                  delay: particle.delay,
-                  ease: "easeInOut",
-                }}
-              />
-            );
-          })}
-        </div>
-      )}
+        .nucleus-core {
+          animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .orbit-1 {
+          transform: rotateX(60deg) rotateZ(0deg);
+          animation: orbit-1 4s linear infinite;
+        }
+        
+        .orbit-2 {
+          transform: rotateX(60deg) rotateZ(60deg);
+          animation: orbit-2 5s linear infinite reverse;
+        }
+        
+        .orbit-3 {
+          transform: rotateX(60deg) rotateZ(120deg);
+          animation: orbit-3 6s linear infinite;
+        }
+        
+        .electron-1 {
+          top: -3px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        
+        .electron-2 {
+          bottom: -3px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        
+        .electron-3 {
+          top: 50%;
+          right: -3px;
+          transform: translateY(-50%);
+        }
+        
+        @keyframes rotate {
+          from { transform: rotateZ(0deg); }
+          to { transform: rotateZ(360deg); }
+        }
+        
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+        
+        @keyframes orbit-1 {
+          from { transform: rotateX(60deg) rotateZ(0deg); }
+          to { transform: rotateX(60deg) rotateZ(360deg); }
+        }
+        
+        @keyframes orbit-2 {
+          from { transform: rotateX(60deg) rotateZ(60deg); }
+          to { transform: rotateX(60deg) rotateZ(420deg); }
+        }
+        
+        @keyframes orbit-3 {
+          from { transform: rotateX(60deg) rotateZ(120deg); }
+          to { transform: rotateX(60deg) rotateZ(480deg); }
+        }
+        
+        @keyframes float-1 {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+          50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+        }
+        
+        @keyframes float-2 {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+          50% { transform: translateY(-15px) translateX(-8px); opacity: 0.8; }
+        }
+        
+        @keyframes float-3 {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.5; }
+          50% { transform: translateY(-25px) translateX(5px); opacity: 0.9; }
+        }
+        
+        @keyframes float-4 {
+          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+          50% { transform: translateY(-18px) translateX(-12px); opacity: 0.7; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+          .atom-container,
+          .nucleus-core,
+          .orbit-1,
+          .orbit-2,
+          .orbit-3,
+          .particle {
+            animation: none !important;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .atom-container {
+            animation-duration: 20s;
+          }
+          .orbit-1,
+          .orbit-2,
+          .orbit-3 {
+            animation-duration: 8s, 10s, 12s;
+          }
+        }
+      `}</style>
     </div>
   );
 }

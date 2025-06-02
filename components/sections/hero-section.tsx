@@ -1,12 +1,21 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import Image from "next/image";
+import { useRef, useEffect, useState, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Download, Github, Linkedin, Mail, Code2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import HeroCanvas from "@/components/3d/hero-canvas";
-import CSSAtom from "@/components/3d/css-atom";
+
+// Lazy load the optimized 3D component
+const CSSAtom = lazy(() => import("@/components/3d/css-atom"));
+
+// Loading placeholder for 3D component
+const AtomLoadingPlaceholder = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse flex items-center justify-center">
+      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 animate-pulse" />
+    </div>
+  </div>
+);
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -42,7 +51,7 @@ export default function HeroSection() {
       id="home"
       ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={mounted ? { opacity, scale } : {}}
+      style={mounted ? { opacity, scale } : { opacity: 1, scale: 1 }}
     >
       {/* Enhanced background with multiple layers */}
       <div className="absolute inset-0 mesh-gradient" />
@@ -193,7 +202,11 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           suppressHydrationWarning
         >
-          {mounted && <CSSAtom />}
+          {mounted && (
+            <Suspense fallback={<AtomLoadingPlaceholder />}>
+              <CSSAtom />
+            </Suspense>
+          )}
         </motion.div>
       </div>
 

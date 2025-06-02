@@ -6,12 +6,36 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+// Optimized font loading with display swap for better performance
+const inter = Inter({ 
+  subsets: ['latin'], 
+  variable: '--font-inter',
+  display: 'swap',
+  preload: true,
+  fallback: [
+    'system-ui',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'Roboto',
+    'sans-serif'
+  ]
+});
 
 export const metadata: Metadata = {
   title: 'Vitalii Honcharuk | Senior React Developer',
   description: 'Senior React Developer with 5+ years of experience specializing in FinTech, performance optimization, and microfrontend architecture.',
   keywords: ['React', 'Developer', 'Vitalii Honcharuk', 'Frontend', 'TypeScript', 'FinTech', 'Performance'],
+  metadataBase: new URL(process.env.NODE_ENV === 'production' ? 'https://vitalii-portfolio.vercel.app' : 'http://localhost:3000'),
+  openGraph: {
+    title: 'Vitalii Honcharuk | Senior React Developer',
+    description: 'Senior React Developer specializing in FinTech and performance optimization',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -28,11 +52,13 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
           <Toaster />
         </ThemeProvider>
       </body>

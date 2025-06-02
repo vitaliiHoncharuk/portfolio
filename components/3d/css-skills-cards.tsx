@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useMemo, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { useState, useMemo, useEffect, memo, useCallback, useRef } from "react";
 
 // Technology Logo Components
 const TechLogos = {
@@ -67,7 +67,7 @@ const TechLogos = {
   ),
   MongoDB: () => (
     <svg viewBox="0 0 24 24" className="w-8 h-8" fill="currentColor">
-      <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218z"/>
+      <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0011.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218z"/>
     </svg>
   )
 };
@@ -87,14 +87,162 @@ const skills = [
   { name: "MongoDB", color: "#47A248", level: 70, years: 3, logo: TechLogos.MongoDB, category: "Backend" },
 ];
 
-export default function CSSSkillsCards() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [mounted, setMounted] = useState(false);
+// Animated counter component for percentages
+const AnimatedCounter = memo(({ value, delay = 0, trigger }: { value: number; delay?: number; trigger: boolean }) => {
+  const [count, setCount] = useState(0);
 
-  const categories = ["all", "Frontend", "Backend", "DevOps", "Testing"];
-  
   useEffect(() => {
-    setMounted(true);
+    if (!trigger) {
+      setCount(0);
+      return;
+    }
+
+    const startTime = Date.now() + delay;
+    const duration = 1000; // 1 second animation
+    
+    const animateCount = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      
+      if (elapsed < 0) {
+        requestAnimationFrame(animateCount);
+        return;
+      }
+      
+      if (elapsed < duration) {
+        const progress = elapsed / duration;
+        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(value * easeOutCubic));
+        requestAnimationFrame(animateCount);
+      } else {
+        setCount(value);
+      }
+    };
+    
+    requestAnimationFrame(animateCount);
+  }, [value, delay, trigger]);
+
+  return <span>{count}</span>;
+});
+
+AnimatedCounter.displayName = 'AnimatedCounter';
+
+// Individual skill card component
+const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[0]; index: number; filterTrigger: number }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { 
+    once: false, 
+    amount: 0.3,
+    margin: "-50px"
+  });
+
+  return (
+    <motion.div
+      ref={cardRef}
+      key={`${skill.name}-${filterTrigger}`}
+      className="group relative transition-transform duration-300 ease-out hover:scale-105"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ 
+        delay: index * 0.03,
+        duration: 0.4,
+        ease: "easeOut"
+      }}
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      <div 
+        className="relative h-32 rounded-xl cursor-pointer transform-gpu transition-all duration-300 ease-out group-hover:translate-z-5"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Card Face */}
+        <div 
+          className="absolute inset-0 rounded-xl p-4 backdrop-blur-sm border-2 transition-all duration-300"
+          style={{
+            background: `linear-gradient(135deg, ${skill.color}15 0%, ${skill.color}05 100%)`,
+            borderColor: `${skill.color}50`,
+            boxShadow: `0 5px 15px rgba(0,0,0,0.1)`,
+          }}
+        >
+          {/* Technology Logo */}
+          <div 
+            className="mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" 
+            style={{ color: skill.color }}
+          >
+            <skill.logo />
+          </div>
+          
+          {/* Skill Name */}
+          <h3 className="font-semibold text-sm mb-1" style={{ color: skill.color }}>
+            {skill.name}
+          </h3>
+          
+          {/* Progress Bar */}
+          <div className="w-full h-1 bg-muted/30 rounded-full overflow-hidden mb-2">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ backgroundColor: skill.color }}
+              initial={{ width: 0 }}
+              animate={{ width: isInView ? `${skill.level}%` : "0%" }}
+              transition={{ delay: index * 0.02 + 0.2, duration: 0.8, ease: "easeOut" }}
+            />
+          </div>
+          
+          {/* Animated Level */}
+          <div className="text-xs text-muted-foreground">
+            <AnimatedCounter 
+              value={skill.level} 
+              delay={index * 20 + 200} 
+              trigger={isInView}
+            />%
+          </div>
+          
+          {/* Years Experience (hover tooltip) */}
+          <div
+            className="absolute bottom-2 right-2 text-xs font-medium px-2 py-1 rounded-md opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0"
+            style={{ 
+              backgroundColor: skill.color,
+              color: "white"
+            }}
+          >
+            {skill.years} years
+          </div>
+        </div>
+
+        {/* Hover Shadow */}
+        <div 
+          className="absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-10"
+          style={{
+            background: skill.color,
+            transform: "translateZ(-10px) translateY(5px)",
+            filter: "blur(10px)",
+          }}
+        />
+        
+        {/* Enhanced border on hover */}
+        <div 
+          className="absolute inset-0 rounded-xl border-2 opacity-0 transition-all duration-300 group-hover:opacity-100"
+          style={{
+            borderColor: skill.color,
+            boxShadow: `0 20px 40px ${skill.color}40, inset 0 0 20px ${skill.color}20`,
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+});
+
+SkillCard.displayName = 'SkillCard';
+
+const CSSSkillsCards = memo(function CSSSkillsCards() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [filterTrigger, setFilterTrigger] = useState(0);
+
+  const categories = useMemo(() => ["all", "Frontend", "Backend", "DevOps", "Testing"], []);
+  
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+    // Trigger re-animation of percentages
+    setFilterTrigger(prev => prev + 1);
   }, []);
   
   // Memoize filtered skills to prevent unnecessary re-renders
@@ -104,30 +252,6 @@ export default function CSSSkillsCards() {
       : skills.filter(skill => skill.category === selectedCategory);
   }, [selectedCategory]);
 
-  if (!mounted) {
-    return (
-      <div className="w-full h-full flex flex-col items-center justify-center p-4">
-        <div className="flex gap-2 mb-8">
-          {categories.map(category => (
-            <div
-              key={category}
-              className="px-4 py-2 rounded-full text-sm font-medium bg-muted/50 text-foreground"
-            >
-              {category}
-            </div>
-          ))}
-        </div>
-        <div className="relative w-full max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {skills.slice(0, 8).map((_, index) => (
-              <div key={index} className="h-32 rounded-xl bg-muted/20 animate-pulse" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">
       {/* Category Filter */}
@@ -135,7 +259,7 @@ export default function CSSSkillsCards() {
         {categories.map(category => (
           <button
             key={category}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => handleCategoryChange(category)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               selectedCategory === category
                 ? "bg-primary text-background"
@@ -151,95 +275,17 @@ export default function CSSSkillsCards() {
       <div className="relative w-full max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredSkills.map((skill, index) => (
-            <motion.div
-              key={skill.name}
-              className="group relative transition-transform duration-300 ease-out hover:scale-105"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
-                delay: index * 0.03,
-                duration: 0.4,
-                ease: "easeOut"
-              }}
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div 
-                className="relative h-32 rounded-xl cursor-pointer transform-gpu transition-all duration-300 ease-out group-hover:translate-z-5"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {/* Card Face */}
-                <div 
-                  className="absolute inset-0 rounded-xl p-4 backdrop-blur-sm border-2 transition-all duration-300"
-                  style={{
-                    background: `linear-gradient(135deg, ${skill.color}15 0%, ${skill.color}05 100%)`,
-                    borderColor: `${skill.color}50`,
-                    boxShadow: `0 5px 15px rgba(0,0,0,0.1)`,
-                  }}
-                >
-                  {/* Technology Logo */}
-                  <div 
-                    className="mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" 
-                    style={{ color: skill.color }}
-                  >
-                    <skill.logo />
-                  </div>
-                  
-                  {/* Skill Name */}
-                  <h3 className="font-semibold text-sm mb-1" style={{ color: skill.color }}>
-                    {skill.name}
-                  </h3>
-                  
-                  {/* Progress Bar */}
-                  <div className="w-full h-1 bg-muted/30 rounded-full overflow-hidden mb-2">
-                    <motion.div
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: skill.color }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ delay: index * 0.02 + 0.2, duration: 0.6, ease: "easeOut" }}
-                    />
-                  </div>
-                  
-                  {/* Level */}
-                  <div className="text-xs text-muted-foreground">
-                    {skill.level}%
-                  </div>
-                  
-                  {/* Years Experience (hover tooltip) */}
-                  <div
-                    className="absolute bottom-2 right-2 text-xs font-medium px-2 py-1 rounded-md opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0"
-                    style={{ 
-                      backgroundColor: skill.color,
-                      color: "white"
-                    }}
-                  >
-                    {skill.years} years
-                  </div>
-                </div>
-
-                {/* Hover Shadow */}
-                <div 
-                  className="absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-10"
-                  style={{
-                    background: skill.color,
-                    transform: "translateZ(-10px) translateY(5px)",
-                    filter: "blur(10px)",
-                  }}
-                />
-                
-                {/* Enhanced border on hover */}
-                <div 
-                  className="absolute inset-0 rounded-xl border-2 opacity-0 transition-all duration-300 group-hover:opacity-100"
-                  style={{
-                    borderColor: skill.color,
-                    boxShadow: `0 20px 40px ${skill.color}40, inset 0 0 20px ${skill.color}20`,
-                  }}
-                />
-              </div>
-            </motion.div>
+            <SkillCard 
+              key={`${skill.name}-${selectedCategory}`}
+              skill={skill}
+              index={index}
+              filterTrigger={filterTrigger}
+            />
           ))}
         </div>
       </div>
     </div>
   );
-}
+});
+
+export default CSSSkillsCards;
