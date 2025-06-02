@@ -90,19 +90,24 @@ const skills = [
 // Animated counter component for percentages
 const AnimatedCounter = memo(({ value, delay = 0, trigger }: { value: number; delay?: number; trigger: boolean }) => {
   const [count, setCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!trigger) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || !trigger) {
       setCount(0);
       return;
     }
 
-    const startTime = Date.now() + delay;
+    let startTime: number;
     const duration = 1000; // 1 second animation
     
-    const animateCount = () => {
-      const now = Date.now();
-      const elapsed = now - startTime;
+    const animateCount = (timestamp: number) => {
+      if (!startTime) startTime = timestamp + delay;
+      const elapsed = timestamp - startTime;
       
       if (elapsed < 0) {
         requestAnimationFrame(animateCount);
@@ -120,7 +125,11 @@ const AnimatedCounter = memo(({ value, delay = 0, trigger }: { value: number; de
     };
     
     requestAnimationFrame(animateCount);
-  }, [value, delay, trigger]);
+  }, [value, delay, trigger, mounted]);
+
+  if (!mounted) {
+    return <span>0</span>;
+  }
 
   return <span>{count}</span>;
 });

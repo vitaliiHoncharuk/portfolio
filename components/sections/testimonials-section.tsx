@@ -106,11 +106,16 @@ const achievements = [
 // Animated counter component
 function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
   const [count, setCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const nodeRef = useRef<HTMLSpanElement>(null);
   const inView = useInView(nodeRef, { once: true });
 
   useEffect(() => {
-    if (inView) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted && inView) {
       const duration = 2000;
       const steps = 60;
       const stepValue = value / steps;
@@ -128,11 +133,11 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
 
       return () => clearInterval(timer);
     }
-  }, [inView, value]);
+  }, [inView, value, mounted]);
 
   return (
     <span ref={nodeRef}>
-      {count}{suffix}
+      {mounted ? count : 0}{suffix}
     </span>
   );
 }
