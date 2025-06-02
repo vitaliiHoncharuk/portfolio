@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ClipboardCopy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,20 +11,21 @@ interface CodeSnippetProps {
 
 export default function CodeSnippet({ code, language = "typescript" }: CodeSnippetProps) {
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
-
-  // Simple syntax highlighting
-  const highlightedCode = code
-    .replace(/(import|export|from|function|const|let|var|return|if|for|while|class|interface|type|extends|implements)(\s)/g, '<span class="text-violet-400">$1</span>$2')
-    .replace(/(\(|\)|\{|\}|\[|\]|;|,|=>|=|\+|-|\*|\/|:|\?|&lt;|&gt;)/g, '<span class="text-gray-400">$1</span>')
-    .replace(/(\/\/.*$)/gm, '<span class="text-gray-500">$1</span>')
-    .replace(/'([^'\\]*(\\.[^'\\]*)*)'|"([^"\\]*(\\.[^"\\]*)*)"/g, '<span class="text-amber-300">$&</span>')
-    .replace(/\b(true|false|null|undefined|this|async|await|try|catch|new)\b/g, '<span class="text-amber-300">$1</span>');
 
   return (
     <div className="relative rounded-md bg-muted/70 overflow-hidden">
@@ -46,10 +47,9 @@ export default function CodeSnippet({ code, language = "typescript" }: CodeSnipp
       </div>
       <div className="p-4 overflow-x-auto">
         <pre className="text-sm">
-          <code 
-            className="font-mono text-foreground/90"
-            dangerouslySetInnerHTML={{ __html: highlightedCode }}
-          />
+          <code className="font-mono text-foreground/90 whitespace-pre-wrap">
+            {mounted ? code : code}
+          </code>
         </pre>
       </div>
     </div>
