@@ -330,11 +330,28 @@ export default function ContactSectionNew() {
                                 <FormItem>
                                   <FormLabel>Your Name *</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="John Doe" 
-                                      {...field} 
-                                      className="h-12"
-                                    />
+                                    <div className="relative">
+                                      <Input 
+                                        placeholder="John Doe" 
+                                        {...field} 
+                                        className={cn(
+                                          "h-12 pr-10",
+                                          form.formState.touchedFields.name && 
+                                          (form.formState.errors.name ? "border-red-500" : "border-green-500")
+                                        )}
+                                      />
+                                      {form.formState.touchedFields.name && (
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                          {form.formState.errors.name ? (
+                                            <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
+                                              <span className="text-red-500 text-xs">✕</span>
+                                            </div>
+                                          ) : (
+                                            <CheckCircle className="w-5 h-5 text-green-500" />
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -348,12 +365,29 @@ export default function ContactSectionNew() {
                                 <FormItem>
                                   <FormLabel>Email Address *</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      placeholder="john@example.com" 
-                                      type="email" 
-                                      {...field} 
-                                      className="h-12"
-                                    />
+                                    <div className="relative">
+                                      <Input 
+                                        placeholder="john@example.com" 
+                                        type="email" 
+                                        {...field} 
+                                        className={cn(
+                                          "h-12 pr-10",
+                                          form.formState.touchedFields.email && 
+                                          (form.formState.errors.email ? "border-red-500" : "border-green-500")
+                                        )}
+                                      />
+                                      {form.formState.touchedFields.email && (
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                          {form.formState.errors.email ? (
+                                            <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
+                                              <span className="text-red-500 text-xs">✕</span>
+                                            </div>
+                                          ) : (
+                                            <CheckCircle className="w-5 h-5 text-green-500" />
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -503,11 +537,28 @@ export default function ContactSectionNew() {
                                 <FormItem>
                                   <FormLabel>Project Details *</FormLabel>
                                   <FormControl>
-                                    <Textarea 
-                                      placeholder="Describe your project goals, requirements, and any specific features you need..."
-                                      {...field} 
-                                      className="min-h-[150px] resize-none"
-                                    />
+                                    <div className="relative">
+                                      <Textarea 
+                                        placeholder="Describe your project goals, requirements, and any specific features you need..."
+                                        {...field} 
+                                        className={cn(
+                                          "min-h-[150px] resize-none pr-10",
+                                          form.formState.touchedFields.message && 
+                                          (form.formState.errors.message ? "border-red-500" : "border-green-500")
+                                        )}
+                                      />
+                                      {form.formState.touchedFields.message && (
+                                        <div className="absolute right-3 top-3">
+                                          {form.formState.errors.message ? (
+                                            <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
+                                              <span className="text-red-500 text-xs">✕</span>
+                                            </div>
+                                          ) : (
+                                            <CheckCircle className="w-5 h-5 text-green-500" />
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
