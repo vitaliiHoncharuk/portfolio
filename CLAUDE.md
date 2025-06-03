@@ -158,6 +158,50 @@ className="text-base md:text-lg lg:text-xl"
 4. Ensure all new components follow the established patterns
 5. Keep accessibility in mind (ARIA labels, keyboard navigation)
 
+## Common Issues & Prevention
+
+### "Uncaught SyntaxError: Invalid or unexpected token" Prevention
+This error often occurs after making changes. To prevent it:
+
+1. **Before Making Changes:**
+   ```bash
+   # Clean build artifacts periodically
+   rm -rf .next
+   rm -rf node_modules/.cache
+   ```
+
+2. **When Writing Code:**
+   - Always escape special characters in JSX (`'` → `&apos;`, `"` → `&quot;`)
+   - Avoid unsupported font configuration options (e.g., `fallback` in Next.js 15)
+   - Use proper UTF-8 encoding for all files
+   - Ensure all imports are valid and files exist
+   - Avoid circular dependencies
+
+3. **After Making Changes:**
+   - Save files one at a time (not all at once)
+   - Wait for hot reload to complete before saving again
+   - If errors persist, restart the dev server:
+     ```bash
+     # Kill the process and restart
+     npm run dev
+     ```
+
+4. **Error Recovery Steps:**
+   ```bash
+   # If syntax error persists:
+   1. Stop dev server (Ctrl+C)
+   2. rm -rf .next
+   3. npm run dev
+   4. Hard refresh browser (Cmd+Shift+R)
+   ```
+
+5. **Best Practices:**
+   - Always validate JSX syntax before saving
+   - Use ESLint auto-fix: `npm run lint -- --fix`
+   - Test build before committing: `npm run build`
+   - Implement error boundaries for graceful error handling
+   - Keep browser DevTools open to catch errors early
+
 ## Environment Variables
 Currently no environment variables are required. If added in the future:
 ```bash
