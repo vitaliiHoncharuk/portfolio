@@ -274,11 +274,14 @@ export default function ContactSectionNew() {
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.border)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.border)_1px,transparent_1px)] bg-[size:2rem_2rem]" />
                 </div>
 
-                {/* Enhanced background gradient effect */}
+                {/* Left-to-right color fill effect */}
                 <div className={cn(
-                  "absolute inset-0 opacity-0 group-hover:opacity-8 transition-all duration-500 rounded-xl bg-gradient-to-br",
+                  "absolute inset-0 rounded-xl bg-gradient-to-r opacity-0 group-hover:opacity-8 transition-all duration-500 transform -translate-x-full group-hover:translate-x-0",
                   method.color
-                )} />
+                )}
+                style={{ 
+                  transition: "transform 0.6s ease-out, opacity 0.3s ease-in-out"
+                }} />
                 
                 {/* Animated border glow */}
                 <div className={cn(
