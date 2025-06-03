@@ -381,12 +381,12 @@ export default function ContactSectionNew() {
                                         placeholder="John Doe" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0",
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
                                           form.formState.errors.name 
-                                            ? "border-red-500 focus:border-red-500" 
+                                            ? "border-red-500" 
                                             : field.value && field.value.length >= 2 
-                                              ? "border-green-500 focus:border-green-600" 
-                                              : "focus:border-primary"
+                                              ? "border-green-500" 
+                                              : "border-border focus:border-border"
                                         )}
                                       />
                                       {field.value && (
@@ -423,12 +423,12 @@ export default function ContactSectionNew() {
                                         type="email" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0",
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
                                           form.formState.errors.email 
-                                            ? "border-red-500 focus:border-red-500" 
+                                            ? "border-red-500" 
                                             : field.value && field.value.includes('@') && field.value.includes('.') 
-                                              ? "border-green-500 focus:border-green-600" 
-                                              : "focus:border-primary"
+                                              ? "border-green-500" 
+                                              : "border-border focus:border-border"
                                         )}
                                       />
                                       {field.value && (
@@ -606,12 +606,12 @@ export default function ContactSectionNew() {
                                         placeholder="Describe your project goals, requirements, and any specific features you need..."
                                         {...field} 
                                         className={cn(
-                                          "min-h-[150px] resize-none pr-10 focus:ring-0 focus:ring-offset-0",
+                                          "min-h-[150px] resize-none pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
                                           form.formState.errors.message 
-                                            ? "border-red-500 focus:border-red-500" 
+                                            ? "border-red-500" 
                                             : field.value && field.value.length >= 10 
-                                              ? "border-green-500 focus:border-green-600" 
-                                              : "focus:border-primary"
+                                              ? "border-green-500" 
+                                              : "border-border focus:border-border"
                                         )}
                                       />
                                       {field.value && (
