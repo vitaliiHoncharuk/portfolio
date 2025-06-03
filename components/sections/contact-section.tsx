@@ -14,12 +14,12 @@ import * as z from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import ContactParticles from "@/components/3d/contact-particles";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -37,6 +37,11 @@ export default function ContactSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  
+  // Check for reduced motion preference
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -87,37 +92,72 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="py-24 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/30 to-background" />
-      <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+    <section id="contact" ref={sectionRef} className="min-h-screen max-h-screen relative overflow-hidden flex items-center">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/20 to-background" />
       
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-20">
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.border)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.border)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      </div>
+      
+      {/* Animated particles */}
+      <ContactParticles />
+      
+      {/* Floating orbs with optimized animation */}
+      {!prefersReducedMotion ? (
+        <>
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-48 h-48 md:w-72 md:h-72 bg-primary/15 rounded-full blur-2xl will-change-transform"
+            style={{ transform: 'translate3d(0, 0, 0)' }}
+            animate={{
+              x: [0, 30, 0],
+              y: [0, -20, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-secondary/10 rounded-full blur-2xl will-change-transform"
+            style={{ transform: 'translate3d(0, 0, 0)' }}
+            animate={{
+              x: [0, -20, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <div className="absolute top-1/4 left-1/4 w-48 h-48 md:w-72 md:h-72 bg-primary/10 rounded-full blur-2xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-secondary/5 rounded-full blur-2xl" />
+        </>
+      )}
+      
+      <div className="container mx-auto px-4 relative z-10 h-full flex flex-col justify-center py-8 md:py-12">
+        <div className="text-center mb-6 md:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4">
               Let&apos;s <span className="gradient-text">Connect</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Ready to turn your ideas into reality? I&apos;d love to hear about your project 
-              and explore how we can work together to create something amazing.
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+              Ready to turn your ideas into reality? Let&apos;s create something amazing together.
             </p>
           </motion.div>
-          
-          <motion.div
-            className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"
-            initial={{ width: 0, opacity: 0 }}
-            animate={isInView ? { width: 96, opacity: 1 } : { width: 0, opacity: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch max-h-[calc(100vh-200px)] md:max-h-[calc(100vh-250px)] overflow-y-auto lg:overflow-visible scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
           {/* Contact Information */}
           <motion.div
             className="h-full flex flex-col"
@@ -125,11 +165,11 @@ export default function ContactSection() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Card className="border border-border/50 bg-card/30 backdrop-blur-sm h-full">
-              <CardContent className="p-8 h-full flex flex-col">
+            <Card className="border border-white/10 bg-background/95 shadow-2xl hover:shadow-primary/20 transition-all duration-300 h-full backdrop-blur-sm">
+              <CardContent className="p-6 lg:p-8 h-full flex flex-col">
                 <div className="flex-grow">
-                  <h3 className="text-2xl font-bold mb-6 gradient-text">Contact Information</h3>
-                  <p className="text-foreground/80 mb-8 leading-relaxed">
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 gradient-text">Contact Information</h3>
+                  <p className="text-sm md:text-base text-foreground/80 mb-6 md:mb-8 leading-relaxed">
                     Ready to bring your ideas to life? I&apos;m passionate about creating 
                     exceptional digital experiences and would love to discuss how we can 
                     collaborate on your next project.
@@ -139,12 +179,12 @@ export default function ContactSection() {
                     {contactInfo.map((item, index) => (
                       <motion.div 
                         key={index} 
-                        className="group flex items-start p-4 rounded-lg border border-border/30 hover:border-primary/50 transition-all duration-300 hover:bg-primary/5"
+                        className="group flex items-start p-4 rounded-xl border border-white/5 hover:border-primary/30 transition-all duration-300 hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 bg-muted/20"
                         initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                         transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                       >
-                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center group-hover:from-primary/30 group-hover:to-secondary/30 transition-all duration-300 group-hover:scale-110">
                           {item.icon}
                         </div>
                         <div className="ml-4 flex-grow">
@@ -173,16 +213,26 @@ export default function ContactSection() {
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.4, delay: 0.8 }}
                 >
-                  <h4 className="font-bold text-lg mb-4 text-foreground">Current Status</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                      <div className="w-2 h-2 rounded-full bg-green-500 mr-3 animate-pulse"></div>
-                      <p className="text-foreground font-medium">Available for new opportunities</p>
-                    </div>
-                    <div className="flex items-center p-3 rounded-lg bg-primary/10 border border-primary/20 cursor-pointer hover:bg-primary/15 transition-colors">
-                      <Calendar className="h-4 w-4 text-primary mr-3" />
-                      <p className="text-foreground font-medium">Schedule a consultation call</p>
-                    </div>
+                  <h4 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-foreground">Current Status</h4>
+                  <div className="space-y-2 md:space-y-3">
+                    <motion.div 
+                      className="flex items-center p-2 md:p-3 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20"
+                      whileHover={!prefersReducedMotion ? { scale: 1.02 } : {}}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      style={{ transform: 'translateZ(0)' }}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-green-500 mr-2 md:mr-3 animate-pulse"></div>
+                      <p className="text-sm md:text-base text-foreground font-medium">Available for new opportunities</p>
+                    </motion.div>
+                    <motion.div 
+                      className="flex items-center p-2 md:p-3 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 cursor-pointer hover:from-primary/20 hover:to-secondary/20 transition-all duration-300"
+                      whileHover={!prefersReducedMotion ? { scale: 1.02 } : {}}
+                      whileTap={!prefersReducedMotion ? { scale: 0.98 } : {}}
+                      style={{ transform: 'translateZ(0)' }}
+                    >
+                      <Calendar className="h-4 w-4 text-primary mr-2 md:mr-3" />
+                      <p className="text-sm md:text-base text-foreground font-medium">Schedule a consultation call</p>
+                    </motion.div>
                   </div>
                 </motion.div>
               </CardContent>
@@ -196,11 +246,11 @@ export default function ContactSection() {
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Card className="border border-border/50 bg-card/30 backdrop-blur-sm h-full">
-              <CardContent className="p-8 h-full flex flex-col">
+            <Card className="border border-white/10 bg-background/95 shadow-2xl hover:shadow-primary/20 transition-all duration-300 h-full backdrop-blur-sm">
+              <CardContent className="p-6 lg:p-8 h-full flex flex-col">
                 <div className="flex-grow">
-                  <h3 className="text-2xl font-bold mb-6 gradient-text">Send a Message</h3>
-                  <p className="text-foreground/80 mb-8">
+                  <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 gradient-text">Send a Message</h3>
+                  <p className="text-sm md:text-base text-foreground/80 mb-6 md:mb-8">
                     Have a project in mind? Let&apos;s discuss how I can help bring your vision to reality.
                   </p>
                   
@@ -217,7 +267,7 @@ export default function ContactSection() {
                                 <Input 
                                   placeholder="Enter your full name" 
                                   {...field} 
-                                  className="bg-background/70 border-border/50 focus:border-primary/50 h-12 transition-all duration-200" 
+                                  className="bg-muted/20 border-white/10 focus:border-primary/50 h-12 transition-all duration-200 hover:bg-muted/30" 
                                 />
                               </FormControl>
                               <FormMessage />
@@ -236,7 +286,7 @@ export default function ContactSection() {
                                   placeholder="your.email@example.com" 
                                   type="email" 
                                   {...field} 
-                                  className="bg-background/70 border-border/50 focus:border-primary/50 h-12 transition-all duration-200" 
+                                  className="bg-muted/20 border-white/10 focus:border-primary/50 h-12 transition-all duration-200 hover:bg-muted/30" 
                                 />
                               </FormControl>
                               <FormMessage />
@@ -254,7 +304,7 @@ export default function ContactSection() {
                                 <Textarea 
                                   placeholder="Tell me about your project, timeline, and any specific requirements..."
                                   {...field} 
-                                  className="min-h-32 bg-background/70 border-border/50 focus:border-primary/50 resize-none transition-all duration-200" 
+                                  className="min-h-32 bg-muted/20 border-white/10 focus:border-primary/50 resize-none transition-all duration-200 hover:bg-muted/30" 
                                 />
                               </FormControl>
                               <FormMessage />
@@ -263,12 +313,18 @@ export default function ContactSection() {
                         />
                       </div>
                       
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-gradient-to-r from-primary to-secondary text-background hover:from-primary/90 hover:to-secondary/90 h-12 font-semibold transition-all duration-300 transform hover:scale-[1.02] mt-6"
+                      <motion.div
+                        whileHover={!prefersReducedMotion ? { scale: 1.02 } : {}}
+                        whileTap={!prefersReducedMotion ? { scale: 0.98 } : {}}
+                        style={{ transform: 'translateZ(0)' }}
                       >
-                        Send Message
-                      </Button>
+                        <Button 
+                          type="submit" 
+                          className="w-full bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90 h-12 font-semibold transition-all duration-300 shadow-lg hover:shadow-primary/30 mt-6"
+                        >
+                          Send Message
+                        </Button>
+                      </motion.div>
                     </form>
                   </Form>
                 </div>
