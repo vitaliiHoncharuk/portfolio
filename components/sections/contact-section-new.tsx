@@ -89,6 +89,7 @@ export default function ContactSectionNew() {
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange", // Enable real-time validation
     defaultValues: {
       name: "",
       email: "",
@@ -380,17 +381,15 @@ export default function ContactSectionNew() {
                                         placeholder="John Doe" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10",
-                                          form.formState.touchedFields.name && (
-                                            form.formState.errors.name 
-                                              ? "border-red-500" 
-                                              : field.value && field.value.length >= 2 
-                                                ? "border-green-500" 
-                                                : ""
-                                          )
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0",
+                                          form.formState.errors.name 
+                                            ? "border-red-500 focus:border-red-500" 
+                                            : field.value && field.value.length >= 2 
+                                              ? "border-green-500 focus:border-green-600" 
+                                              : "focus:border-primary"
                                         )}
                                       />
-                                      {form.formState.touchedFields.name && field.value && (
+                                      {field.value && (
                                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                           {form.formState.errors.name ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
@@ -424,17 +423,15 @@ export default function ContactSectionNew() {
                                         type="email" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10",
-                                          form.formState.touchedFields.email && (
-                                            form.formState.errors.email 
-                                              ? "border-red-500" 
-                                              : field.value && field.value.includes('@') 
-                                                ? "border-green-500" 
-                                                : ""
-                                          )
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0",
+                                          form.formState.errors.email 
+                                            ? "border-red-500 focus:border-red-500" 
+                                            : field.value && field.value.includes('@') && field.value.includes('.') 
+                                              ? "border-green-500 focus:border-green-600" 
+                                              : "focus:border-primary"
                                         )}
                                       />
-                                      {form.formState.touchedFields.email && field.value && (
+                                      {field.value && (
                                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                           {form.formState.errors.email ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
@@ -609,17 +606,15 @@ export default function ContactSectionNew() {
                                         placeholder="Describe your project goals, requirements, and any specific features you need..."
                                         {...field} 
                                         className={cn(
-                                          "min-h-[150px] resize-none pr-10",
-                                          form.formState.touchedFields.message && (
-                                            form.formState.errors.message 
-                                              ? "border-red-500" 
-                                              : field.value && field.value.length >= 10 
-                                                ? "border-green-500" 
-                                                : ""
-                                          )
+                                          "min-h-[150px] resize-none pr-10 focus:ring-0 focus:ring-offset-0",
+                                          form.formState.errors.message 
+                                            ? "border-red-500 focus:border-red-500" 
+                                            : field.value && field.value.length >= 10 
+                                              ? "border-green-500 focus:border-green-600" 
+                                              : "focus:border-primary"
                                         )}
                                       />
-                                      {form.formState.touchedFields.message && field.value && (
+                                      {field.value && (
                                         <div className="absolute right-3 top-3">
                                           {form.formState.errors.message ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
