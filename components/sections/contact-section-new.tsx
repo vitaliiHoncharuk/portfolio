@@ -178,13 +178,13 @@ export default function ContactSectionNew() {
         >
           <Badge className="mb-4" variant="outline">
             <Sparkles className="w-3 h-3 mr-1" />
-            Let's Create Something Amazing
+            Let&apos;s Create Something Amazing
           </Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Ready to Start Your <span className="gradient-text">Next Project?</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose how you'd like to connect and let's turn your vision into reality
+            Choose how you&apos;d like to connect and let&apos;s turn your vision into reality
           </p>
         </motion.div>
 
@@ -319,7 +319,7 @@ export default function ContactSectionNew() {
                             className="space-y-6"
                           >
                             <div className="space-y-2">
-                              <h3 className="text-xl font-semibold">Let's start with the basics</h3>
+                              <h3 className="text-xl font-semibold">Let&apos;s start with the basics</h3>
                               <p className="text-muted-foreground">Tell me a bit about yourself</p>
                             </div>
                             
@@ -721,11 +721,11 @@ export default function ContactSectionNew() {
           <Accordion type="single" collapsible className="space-y-2">
             <AccordionItem value="item-1" className="border rounded-lg px-4">
               <AccordionTrigger className="hover:no-underline">
-                What's your typical project timeline?
+                What&apos;s your typical project timeline?
               </AccordionTrigger>
               <AccordionContent>
                 Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, 
-                while a full-stack application can take 2-4 months. I'll provide a detailed timeline after understanding 
+                while a full-stack application can take 2-4 months. I&apos;ll provide a detailed timeline after understanding 
                 your specific requirements.
               </AccordionContent>
             </AccordionItem>
@@ -736,7 +736,7 @@ export default function ContactSectionNew() {
               </AccordionTrigger>
               <AccordionContent>
                 Yes! I work with clients globally and have experience collaborating across different time zones. 
-                I'm flexible with meeting times and use tools like Slack, Zoom, and project management platforms 
+                I&apos;m flexible with meeting times and use tools like Slack, Zoom, and project management platforms 
                 to ensure smooth communication.
               </AccordionContent>
             </AccordionItem>
@@ -747,7 +747,7 @@ export default function ContactSectionNew() {
               </AccordionTrigger>
               <AccordionContent>
                 I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, and various 
-                databases. I'm also experienced with cloud platforms like AWS and Vercel, and I stay updated with 
+                databases. I&apos;m also experienced with cloud platforms like AWS and Vercel, and I stay updated with 
                 the latest industry trends and best practices.
               </AccordionContent>
             </AccordionItem>
@@ -757,8 +757,8 @@ export default function ContactSectionNew() {
                 How do you handle project communication?
               </AccordionTrigger>
               <AccordionContent>
-                I believe in transparent and regular communication. You'll receive weekly progress updates, have access 
-                to a project dashboard, and we'll schedule regular check-ins. I'm also available for quick questions 
+                I believe in transparent and regular communication. You&apos;ll receive weekly progress updates, have access 
+                to a project dashboard, and we&apos;ll schedule regular check-ins. I&apos;m also available for quick questions 
                 via email or messaging throughout the project.
               </AccordionContent>
             </AccordionItem>
