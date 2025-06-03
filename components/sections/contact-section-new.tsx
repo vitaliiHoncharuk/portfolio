@@ -381,19 +381,24 @@ export default function ContactSectionNew() {
                                         {...field} 
                                         className={cn(
                                           "h-12 pr-10",
-                                          form.formState.touchedFields.name && 
-                                          (form.formState.errors.name ? "border-red-500" : "border-green-500")
+                                          form.formState.touchedFields.name && (
+                                            form.formState.errors.name 
+                                              ? "border-red-500" 
+                                              : field.value && field.value.length >= 2 
+                                                ? "border-green-500" 
+                                                : ""
+                                          )
                                         )}
                                       />
-                                      {form.formState.touchedFields.name && (
+                                      {form.formState.touchedFields.name && field.value && (
                                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                           {form.formState.errors.name ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
                                               <span className="text-red-500 text-xs">✕</span>
                                             </div>
-                                          ) : (
+                                          ) : field.value.length >= 2 ? (
                                             <CheckCircle className="w-5 h-5 text-green-500" />
-                                          )}
+                                          ) : null}
                                         </div>
                                       )}
                                     </div>
@@ -420,19 +425,24 @@ export default function ContactSectionNew() {
                                         {...field} 
                                         className={cn(
                                           "h-12 pr-10",
-                                          form.formState.touchedFields.email && 
-                                          (form.formState.errors.email ? "border-red-500" : "border-green-500")
+                                          form.formState.touchedFields.email && (
+                                            form.formState.errors.email 
+                                              ? "border-red-500" 
+                                              : field.value && field.value.includes('@') 
+                                                ? "border-green-500" 
+                                                : ""
+                                          )
                                         )}
                                       />
-                                      {form.formState.touchedFields.email && (
+                                      {form.formState.touchedFields.email && field.value && (
                                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                           {form.formState.errors.email ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
                                               <span className="text-red-500 text-xs">✕</span>
                                             </div>
-                                          ) : (
+                                          ) : field.value.includes('@') && field.value.includes('.') ? (
                                             <CheckCircle className="w-5 h-5 text-green-500" />
-                                          )}
+                                          ) : null}
                                         </div>
                                       )}
                                     </div>
@@ -600,19 +610,24 @@ export default function ContactSectionNew() {
                                         {...field} 
                                         className={cn(
                                           "min-h-[150px] resize-none pr-10",
-                                          form.formState.touchedFields.message && 
-                                          (form.formState.errors.message ? "border-red-500" : "border-green-500")
+                                          form.formState.touchedFields.message && (
+                                            form.formState.errors.message 
+                                              ? "border-red-500" 
+                                              : field.value && field.value.length >= 10 
+                                                ? "border-green-500" 
+                                                : ""
+                                          )
                                         )}
                                       />
-                                      {form.formState.touchedFields.message && (
+                                      {form.formState.touchedFields.message && field.value && (
                                         <div className="absolute right-3 top-3">
                                           {form.formState.errors.message ? (
                                             <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center">
                                               <span className="text-red-500 text-xs">✕</span>
                                             </div>
-                                          ) : (
+                                          ) : field.value.length >= 10 ? (
                                             <CheckCircle className="w-5 h-5 text-green-500" />
-                                          )}
+                                          ) : null}
                                         </div>
                                       )}
                                     </div>
