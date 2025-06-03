@@ -7,13 +7,19 @@ This is a personal portfolio website built with Next.js 15.3.3, showcasing devel
 
 ### Branch Strategy
 1. **NEVER push directly to main branch**
-2. **Always ask before starting a new task:**
+2. **Always start from latest main:**
+   - Before creating any new branch, always:
+     ```bash
+     git checkout main
+     git pull origin main
+     ```
+3. **Always ask before starting a new task:**
    - "Should I create a new branch for this task?"
    - Suggest a descriptive branch name (e.g., `feature/add-blog-section`, `fix/mobile-navigation`)
-3. **For follow-up work on the same feature:**
+4. **For follow-up work on the same feature:**
    - Continue on the same branch
    - Create separate commits for each logical change
-4. **When task is complete:**
+5. **When task is complete:**
    - Ask: "Should I create a PR to main?"
    - Provide a summary of changes for the PR description
 
@@ -32,18 +38,22 @@ This is a personal portfolio website built with Next.js 15.3.3, showcasing devel
 ```bash
 # 1. User assigns task
 # 2. Claude asks: "Should I create a new branch for [task description]?"
-# 3. If yes:
+# 3. If yes, first ensure we're on latest main:
+git checkout main
+git pull origin main
+
+# 4. Create new branch from updated main:
 git checkout -b feature/branch-name
 
-# 4. Make changes and commit
+# 5. Make changes and commit
 git add .
 git commit -m "feat: Add new feature"
 
-# 5. Push to remote
+# 6. Push to remote
 git push -u origin feature/branch-name
 
-# 6. When complete, ask: "Should I create a PR to main?"
-# 7. If yes:
+# 7. When complete, ask: "Should I create a PR to main?"
+# 8. If yes:
 gh pr create --title "Feature: Description" --body "..."
 ```
 
