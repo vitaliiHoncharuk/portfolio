@@ -3,6 +3,50 @@
 ## Project Overview
 This is a personal portfolio website built with Next.js 15.3.3, showcasing development skills and projects.
 
+## IMPORTANT: Git Workflow Instructions
+
+### Branch Strategy
+1. **NEVER push directly to main branch**
+2. **Always ask before starting a new task:**
+   - "Should I create a new branch for this task?"
+   - Suggest a descriptive branch name (e.g., `feature/add-blog-section`, `fix/mobile-navigation`)
+3. **For follow-up work on the same feature:**
+   - Continue on the same branch
+   - Create separate commits for each logical change
+4. **When task is complete:**
+   - Ask: "Should I create a PR to main?"
+   - Provide a summary of changes for the PR description
+
+### Commit Guidelines
+1. **Commit frequently** - After each logical change
+2. **Use conventional commits:**
+   - `feat:` for new features
+   - `fix:` for bug fixes
+   - `perf:` for performance improvements
+   - `refactor:` for code refactoring
+   - `style:` for formatting changes
+   - `docs:` for documentation updates
+3. **Always include the Claude signature in commits**
+
+### Example Workflow
+```bash
+# 1. User assigns task
+# 2. Claude asks: "Should I create a new branch for [task description]?"
+# 3. If yes:
+git checkout -b feature/branch-name
+
+# 4. Make changes and commit
+git add .
+git commit -m "feat: Add new feature"
+
+# 5. Push to remote
+git push -u origin feature/branch-name
+
+# 6. When complete, ask: "Should I create a PR to main?"
+# 7. If yes:
+gh pr create --title "Feature: Description" --body "..."
+```
+
 ## Tech Stack
 - **Framework**: Next.js 15.3.3 (App Router)
 - **Language**: TypeScript
