@@ -254,8 +254,8 @@ export default function ContactSectionNew() {
                 className={cn(
                   "relative p-6 rounded-xl border-2 transition-all duration-500 text-left group overflow-hidden",
                   isSelected 
-                    ? "border-primary bg-primary/5 shadow-lg shadow-primary/25" 
-                    : "border-border/30 hover:border-primary/40 bg-background/50 backdrop-blur-sm hover:bg-background/80"
+                    ? "border-primary bg-primary/5 shadow-lg shadow-primary/15" 
+                    : "border-border/20 hover:border-primary/30 bg-background/30 backdrop-blur-sm hover:bg-background/50"
                 )}
                 whileHover={{ 
                   scale: 1.02,
@@ -265,44 +265,49 @@ export default function ContactSectionNew() {
                 whileTap={{ scale: 0.98 }}
                 style={{
                   boxShadow: isSelected 
-                    ? "0 10px 40px -10px rgba(var(--primary-rgb, 59 130 246) / 0.3)" 
-                    : "0 4px 20px -4px rgba(0, 0, 0, 0.1)"
+                    ? "0 10px 40px -10px rgba(var(--primary-rgb, 59 130 246) / 0.2)" 
+                    : "0 4px 20px -4px rgba(0, 0, 0, 0.08)"
                 }}
               >
+                {/* Grid pattern overlay - always visible but subtle */}
+                <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.06] transition-opacity duration-500">
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.border)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.border)_1px,transparent_1px)] bg-[size:2rem_2rem]" />
+                </div>
+
                 {/* Enhanced background gradient effect */}
                 <div className={cn(
-                  "absolute inset-0 opacity-0 group-hover:opacity-20 transition-all duration-500 rounded-xl bg-gradient-to-br",
+                  "absolute inset-0 opacity-0 group-hover:opacity-8 transition-all duration-500 rounded-xl bg-gradient-to-br",
                   method.color
                 )} />
                 
                 {/* Animated border glow */}
                 <div className={cn(
-                  "absolute -inset-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl bg-gradient-to-br blur-sm",
+                  "absolute -inset-0.5 opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-xl bg-gradient-to-br blur-sm",
                   method.color
                 )} />
                 
                 {/* Shimmer effect */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                   <div className={cn(
-                    "absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+                    "absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
                   )} />
                 </div>
                 
                 <div className="relative">
                   <motion.div 
                     className={cn(
-                      "w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-br text-white shadow-lg relative overflow-hidden",
+                      "w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-br text-white shadow-md relative overflow-hidden",
                       method.color
                     )}
                     whileHover={{ 
-                      scale: 1.1,
-                      rotate: [0, -5, 5, 0],
+                      scale: 1.05,
+                      rotate: [0, -3, 3, 0],
                       transition: { duration: 0.3 }
                     }}
                   >
                     <Icon className="w-6 h-6 relative z-10" />
                     {/* Icon glow effect */}
-                    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                    <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                   </motion.div>
                   <h3 className="font-semibold mb-2">{method.title}</h3>
                   <p className="text-sm text-muted-foreground">{method.description}</p>
@@ -703,11 +708,11 @@ export default function ContactSectionNew() {
                           >
                             <Button
                               type="submit"
-                              className="relative overflow-hidden bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                              className="relative overflow-hidden bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-lg hover:shadow-xl hover:shadow-primary/20 transition-all duration-300"
                             >
                               {/* Button shimmer effect */}
                               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
                               </div>
                               <Rocket className="w-4 h-4 mr-2 relative z-10" />
                               <span className="relative z-10">Send Message</span>
