@@ -36,7 +36,14 @@ import {
 } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import Confetti from "@/components/ui/confetti";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -77,6 +84,7 @@ export default function ContactSectionNew() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState<"form" | "schedule" | "direct">("form");
+  const [showConfetti, setShowConfetti] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,12 +101,21 @@ export default function ContactSectionNew() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    
+    // Show confetti animation
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 5000);
+    
     toast({
       title: "Message sent successfully! 🎉",
       description: "I'll get back to you within 24 hours.",
     });
-    form.reset();
-    setCurrentStep(1);
+    
+    // Reset form after a delay
+    setTimeout(() => {
+      form.reset();
+      setCurrentStep(1);
+    }, 1500);
   };
 
   const nextStep = () => {
@@ -135,6 +152,8 @@ export default function ContactSectionNew() {
 
   return (
     <section id="contact" ref={sectionRef} className="min-h-screen relative overflow-hidden flex items-center py-20">
+      {/* Confetti Animation */}
+      <Confetti active={showConfetti} />
       {/* Animated background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/10 to-background" />
@@ -638,6 +657,72 @@ export default function ContactSectionNew() {
               </div>
             );
           })}
+        </motion.div>
+
+        {/* FAQ Section */}
+        <motion.div
+          className="mt-16 max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <h3 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h3>
+          <Accordion type="single" collapsible className="space-y-2">
+            <AccordionItem value="item-1" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                What's your typical project timeline?
+              </AccordionTrigger>
+              <AccordionContent>
+                Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, 
+                while a full-stack application can take 2-4 months. I'll provide a detailed timeline after understanding 
+                your specific requirements.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-2" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                Do you work with international clients?
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes! I work with clients globally and have experience collaborating across different time zones. 
+                I'm flexible with meeting times and use tools like Slack, Zoom, and project management platforms 
+                to ensure smooth communication.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-3" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                What technologies do you specialize in?
+              </AccordionTrigger>
+              <AccordionContent>
+                I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, and various 
+                databases. I'm also experienced with cloud platforms like AWS and Vercel, and I stay updated with 
+                the latest industry trends and best practices.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-4" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                How do you handle project communication?
+              </AccordionTrigger>
+              <AccordionContent>
+                I believe in transparent and regular communication. You'll receive weekly progress updates, have access 
+                to a project dashboard, and we'll schedule regular check-ins. I'm also available for quick questions 
+                via email or messaging throughout the project.
+              </AccordionContent>
+            </AccordionItem>
+            
+            <AccordionItem value="item-5" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                Do you provide ongoing support after project completion?
+              </AccordionTrigger>
+              <AccordionContent>
+                Absolutely! I offer various support packages including bug fixes, feature updates, and performance 
+                optimization. The first month after launch includes complimentary support, and we can discuss 
+                ongoing maintenance plans based on your needs.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </motion.div>
       </div>
     </section>
