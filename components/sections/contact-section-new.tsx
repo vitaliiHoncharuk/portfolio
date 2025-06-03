@@ -85,6 +85,7 @@ export default function ContactSectionNew() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState<"form" | "schedule" | "direct">("form");
   const [showConfetti, setShowConfetti] = useState(false);
+  const [shakeError, setShakeError] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -118,7 +119,26 @@ export default function ContactSectionNew() {
     }, 1500);
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
+    // Validate current step before proceeding
+    let fieldsToValidate: string[] = [];
+    
+    if (currentStep === 1) {
+      fieldsToValidate = ['name', 'email'];
+    } else if (currentStep === 2) {
+      fieldsToValidate = ['projectType'];
+    }
+    
+    if (fieldsToValidate.length > 0) {
+      const isValid = await form.trigger(fieldsToValidate as any);
+      if (!isValid) {
+        // Trigger shake animation
+        setShakeError(true);
+        setTimeout(() => setShakeError(false), 500);
+        return;
+      }
+    }
+    
     if (currentStep < 3) setCurrentStep(currentStep + 1);
   };
 
@@ -281,28 +301,47 @@ export default function ContactSectionNew() {
               <Card className="border-border/50 bg-background/95 backdrop-blur-sm">
                 <CardContent className="p-8">
                   {/* Step Indicator */}
-                  <div className="flex items-center justify-between mb-8">
-                    {[1, 2, 3].map((step) => (
-                      <div key={step} className="flex items-center">
-                        <motion.div
-                          className={cn(
-                            "w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300",
-                            currentStep >= step
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-muted text-muted-foreground"
-                          )}
-                          animate={currentStep >= step ? { scale: [1, 1.1, 1] } : {}}
-                        >
-                          {currentStep > step ? <CheckCircle className="w-5 h-5" /> : step}
-                        </motion.div>
-                        {step < 3 && (
-                          <div className={cn(
-                            "w-full h-1 mx-2 transition-all duration-300",
-                            currentStep > step ? "bg-primary" : "bg-muted"
-                          )} />
-                        )}
-                      </div>
-                    ))}
+                  <div className="mb-8">
+                    <div className="flex items-center justify-between relative">
+                      {/* Progress line background */}
+                      <div className="absolute left-0 top-1/2 w-full h-1 bg-muted -translate-y-1/2 -z-10" />
+                      
+                      {/* Active progress line */}
+                      <motion.div 
+                        className="absolute left-0 top-1/2 h-1 bg-primary -translate-y-1/2 -z-10"
+                        initial={{ width: "0%" }}
+                        animate={{ 
+                          width: currentStep === 1 ? "0%" : currentStep === 2 ? "50%" : "100%" 
+                        }}
+                        transition={{ duration: 0.3 }}
+                      />
+                      
+                      {[
+                        { step: 1, label: "Basic Info" },
+                        { step: 2, label: "Project Details" },
+                        { step: 3, label: "Message" }
+                      ].map(({ step, label }) => (
+                        <div key={step} className="relative flex flex-col items-center">
+                          <motion.div
+                            className={cn(
+                              "w-12 h-12 rounded-full flex items-center justify-center font-semibold transition-all duration-300 border-2",
+                              currentStep >= step
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "bg-background text-muted-foreground border-muted"
+                            )}
+                            animate={currentStep === step ? { scale: [1, 1.1, 1] } : {}}
+                          >
+                            {currentStep > step ? <CheckCircle className="w-6 h-6" /> : step}
+                          </motion.div>
+                          <span className={cn(
+                            "text-xs mt-2 font-medium transition-colors duration-300",
+                            currentStep >= step ? "text-foreground" : "text-muted-foreground"
+                          )}>
+                            {label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   <Form {...form}>
@@ -313,7 +352,10 @@ export default function ContactSectionNew() {
                           <motion.div
                             key="step1"
                             initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            animate={{ 
+                              opacity: 1, 
+                              x: shakeError ? [0, -10, 10, -10, 10, 0] : 0 
+                            }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
                             className="space-y-6"
@@ -328,7 +370,10 @@ export default function ContactSectionNew() {
                               name="name"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Your Name *</FormLabel>
+                                  <FormLabel className="flex items-center gap-1">
+                                    Your Name 
+                                    <span className="text-red-500">*</span>
+                                  </FormLabel>
                                   <FormControl>
                                     <div className="relative">
                                       <Input 
@@ -363,7 +408,10 @@ export default function ContactSectionNew() {
                               name="email"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Email Address *</FormLabel>
+                                  <FormLabel className="flex items-center gap-1">
+                                    Email Address 
+                                    <span className="text-red-500">*</span>
+                                  </FormLabel>
                                   <FormControl>
                                     <div className="relative">
                                       <Input 
@@ -419,7 +467,10 @@ export default function ContactSectionNew() {
                           <motion.div
                             key="step2"
                             initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
+                            animate={{ 
+                              opacity: 1, 
+                              x: shakeError ? [0, -10, 10, -10, 10, 0] : 0 
+                            }}
                             exit={{ opacity: 0, x: -20 }}
                             transition={{ duration: 0.3 }}
                             className="space-y-6"
@@ -434,7 +485,10 @@ export default function ContactSectionNew() {
                               name="projectType"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Project Type *</FormLabel>
+                                  <FormLabel className="flex items-center gap-1">
+                                    Project Type 
+                                    <span className="text-red-500">*</span>
+                                  </FormLabel>
                                   <FormControl>
                                     <div className="grid grid-cols-2 gap-3">
                                       {projectTypes.map((type) => {
@@ -535,7 +589,10 @@ export default function ContactSectionNew() {
                               name="message"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Project Details *</FormLabel>
+                                  <FormLabel className="flex items-center gap-1">
+                                    Project Details 
+                                    <span className="text-red-500">*</span>
+                                  </FormLabel>
                                   <FormControl>
                                     <div className="relative">
                                       <Textarea 
