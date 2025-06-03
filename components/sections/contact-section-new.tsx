@@ -381,7 +381,7 @@ export default function ContactSectionNew() {
                                         placeholder="John Doe" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
                                           form.formState.errors.name 
                                             ? "border-red-500" 
                                             : field.value && field.value.length >= 2 
@@ -423,7 +423,7 @@ export default function ContactSectionNew() {
                                         type="email" 
                                         {...field} 
                                         className={cn(
-                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
+                                          "h-12 pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
                                           form.formState.errors.email 
                                             ? "border-red-500" 
                                             : field.value && field.value.includes('@') && field.value.includes('.') 
@@ -606,7 +606,7 @@ export default function ContactSectionNew() {
                                         placeholder="Describe your project goals, requirements, and any specific features you need..."
                                         {...field} 
                                         className={cn(
-                                          "min-h-[150px] resize-none pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none",
+                                          "min-h-[150px] resize-none pr-10 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
                                           form.formState.errors.message 
                                             ? "border-red-500" 
                                             : field.value && field.value.length >= 10 
