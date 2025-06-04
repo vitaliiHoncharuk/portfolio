@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <motion.header
       className={cn(
-        'fixed top-0 w-full z-50 transition-all duration-500',
+        'fixed top-0 w-full z-[100] transition-all duration-500',
         isScrolled 
           ? 'glass py-4'
           : 'bg-transparent py-6'
@@ -141,7 +141,7 @@ export default function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            className="fixed inset-0 top-0 bg-background z-40 md:hidden"
+            className="fixed inset-0 top-0 bg-background z-[100] md:hidden"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
