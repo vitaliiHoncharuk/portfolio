@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { HelpCircle, X, ChevronDown } from "lucide-react";
+import { HelpCircle, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { SimpleAccordion } from "@/components/ui/simple-accordion";
 
 const faqData = [
   {
@@ -35,7 +36,6 @@ const faqData = [
 export default function FloatingFAQ() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [openItems, setOpenItems] = useState<string[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -45,13 +45,26 @@ export default function FloatingFAQ() {
     return null;
   }
 
-  const toggleItem = (itemId: string) => {
-    setOpenItems(prev => 
-      prev.includes(itemId) 
-        ? prev.filter(id => id !== itemId)
-        : [...prev, itemId]
-    );
-  };
+  const accordionItems = faqData.map((faq, index) => ({
+    id: faq.id,
+    trigger: (
+      <div className="flex items-center gap-3 flex-1">
+        <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
+          <span className="text-xs font-semibold text-primary">{index + 1}</span>
+        </div>
+        <span className="font-medium text-left pr-2 leading-tight flex-1">
+          {faq.question}
+        </span>
+      </div>
+    ),
+    content: (
+      <div className="pl-9">
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          {faq.answer}
+        </p>
+      </div>
+    ),
+  }));
 
   return (
     <>
@@ -102,50 +115,14 @@ export default function FloatingFAQ() {
 
                 {/* FAQ Content */}
                 <div className="max-h-[50vh] overflow-y-auto p-4">
-                  <div className="space-y-2">
-                    {faqData.map((faq, index) => {
-                      const isItemOpen = openItems.includes(faq.id);
-                      
-                      return (
-                        <div
-                          key={faq.id}
-                          className="border-0 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors group"
-                        >
-                          <button
-                            onClick={() => toggleItem(faq.id)}
-                            className="w-full px-4 py-3 text-left text-sm flex items-center gap-3 group"
-                            aria-expanded={isItemOpen}
-                          >
-                            <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">
-                              <span className="text-xs font-semibold text-primary">{index + 1}</span>
-                            </div>
-                            <span className="font-medium text-left pr-2 leading-tight flex-1">
-                              {faq.question}
-                            </span>
-                            <ChevronDown 
-                              className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
-                                isItemOpen ? 'rotate-180' : ''
-                              }`}
-                            />
-                          </button>
-                          
-                          <div
-                            className={`overflow-hidden transition-all duration-200 ${
-                              isItemOpen ? 'max-h-96' : 'max-h-0'
-                            }`}
-                          >
-                            <div className="px-4 pb-3">
-                              <div className="pl-9">
-                                <p className="text-xs text-muted-foreground leading-relaxed">
-                                  {faq.answer}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <SimpleAccordion
+                    items={accordionItems}
+                    type="single"
+                    collapsible={true}
+                    itemClassName="border-0 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors group"
+                    triggerClassName="w-full px-4 py-3 text-left text-sm flex items-center gap-3 group"
+                    contentClassName="px-4 pb-3"
+                  />
                 </div>
 
                 {/* Footer */}

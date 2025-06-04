@@ -53,9 +53,6 @@ export default function ContactSection() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // In a real application, you would send this data to your server
-    console.log(values);
-    
     toast({
       title: "Message sent!",
       description: "Thanks for reaching out. I'll get back to you soon.",

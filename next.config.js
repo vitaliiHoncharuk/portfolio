@@ -17,7 +17,7 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     webpackBuildWorker: true,
-    optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion'],
+    optimizePackageImports: ['framer-motion', 'lucide-react', 'sonner'],
   },
   // Improve dev server stability
   onDemandEntries: {
@@ -61,9 +61,9 @@ const nextConfig = {
             chunks: 'all',
             enforce: true,
           },
-          radix: {
-            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
-            name: 'radix-ui',
+          sonner: {
+            test: /[\\/]node_modules[\\/]sonner[\\/]/,
+            name: 'sonner',
             priority: 8,
             chunks: 'all',
             enforce: true,
