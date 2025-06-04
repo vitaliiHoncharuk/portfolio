@@ -160,12 +160,12 @@ const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[
       style={{ transformStyle: "preserve-3d" }}
     >
       <div 
-        className="relative h-32 rounded-xl cursor-pointer transform-gpu transition-all duration-300 ease-out group-hover:translate-z-5"
+        className="relative h-24 sm:h-28 md:h-32 rounded-lg sm:rounded-xl cursor-pointer transform-gpu transition-all duration-300 ease-out group-hover:translate-z-5"
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Card Face */}
         <div 
-          className="absolute inset-0 rounded-xl p-4 backdrop-blur-sm border-2 transition-all duration-300"
+          className="absolute inset-0 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 backdrop-blur-sm border-2 transition-all duration-300"
           style={{
             background: `linear-gradient(135deg, ${skill.color}15 0%, ${skill.color}05 100%)`,
             borderColor: `${skill.color}50`,
@@ -181,7 +181,7 @@ const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[
           </div>
           
           {/* Skill Name */}
-          <h3 className="font-semibold text-sm mb-1" style={{ color: skill.color }}>
+          <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: skill.color }}>
             {skill.name}
           </h3>
           
@@ -197,7 +197,7 @@ const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[
           </div>
           
           {/* Animated Level */}
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs sm:text-sm text-muted-foreground">
             <AnimatedCounter 
               value={skill.level} 
               delay={index * 20 + 200} 
@@ -264,12 +264,12 @@ const CSSSkillsCards = memo(function CSSSkillsCards() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4">
       {/* Category Filter */}
-      <div className="flex gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-6 sm:mb-8 justify-center">
         {categories.map(category => (
           <button
             key={category}
             onClick={() => handleCategoryChange(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
               selectedCategory === category
                 ? "bg-primary text-background"
                 : "bg-muted/50 hover:bg-muted text-foreground"
@@ -282,7 +282,7 @@ const CSSSkillsCards = memo(function CSSSkillsCards() {
 
       {/* Skills Grid */}
       <div className="relative w-full max-w-6xl">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
           {filteredSkills.map((skill, index) => (
             <SkillCard 
               key={`${skill.name}-${selectedCategory}`}

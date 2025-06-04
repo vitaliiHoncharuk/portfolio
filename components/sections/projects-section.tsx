@@ -126,7 +126,7 @@ export default function ProjectsSection() {
   };
 
   return (
-    <section id="projects" ref={sectionRef} className="py-32 relative overflow-hidden">
+    <section id="projects" ref={sectionRef} className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
       {/* Background decoration */}
       <motion.div 
         className="absolute inset-0 opacity-30"
@@ -137,7 +137,7 @@ export default function ProjectsSection() {
       </motion.div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -153,12 +153,12 @@ export default function ProjectsSection() {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <span className="block text-4xl md:text-5xl lg:text-6xl font-bold mb-2">Projects that</span>
-            <span className="block gradient-text text-5xl md:text-6xl lg:text-7xl font-bold">make impact</span>
+            <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2">Projects that</span>
+            <span className="block gradient-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold">make impact</span>
           </motion.h2>
           
           <motion.p
-            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12"
+            className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -173,19 +173,19 @@ export default function ProjectsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-12"
+          className="mb-8 sm:mb-10 md:mb-12"
         >
           <Tabs defaultValue="all" value={selectedCategory} onValueChange={setSelectedCategory}>
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 h-auto p-1 bg-muted/50">
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 sm:grid-cols-4 h-auto p-1 bg-muted/50 gap-1">
               {categories.map(cat => (
                 <TabsTrigger 
                   key={cat.id} 
                   value={cat.id}
-                  className="flex items-center gap-2 py-3 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+                  className="flex items-center gap-1 sm:gap-2 py-2 sm:py-3 px-2 sm:px-4 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm text-xs sm:text-sm"
                 >
-                  {cat.icon}
+                  <span className="w-3 h-3 sm:w-4 sm:h-4">{cat.icon}</span>
+                  <span className="hidden xs:inline sm:hidden">{cat.label.split(' ')[0]}</span>
                   <span className="hidden sm:inline">{cat.label}</span>
-                  <span className="sm:hidden">{cat.label.split(' ')[0]}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -197,7 +197,7 @@ export default function ProjectsSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-14 md:mb-16"
         >
           {filteredProjects
             .filter(p => p.featured)
@@ -222,7 +222,7 @@ export default function ProjectsSection() {
         {filteredProjects.filter(p => !p.featured).length > 0 && (
           <>
             <motion.h3
-              className="text-2xl font-semibold mb-8 text-center"
+              className="text-xl sm:text-2xl font-semibold mb-6 sm:mb-8 text-center"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
@@ -233,7 +233,7 @@ export default function ProjectsSection() {
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
               {filteredProjects
                 .filter(p => !p.featured)

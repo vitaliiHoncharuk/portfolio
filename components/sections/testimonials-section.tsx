@@ -159,7 +159,7 @@ export default function TestimonialsSection() {
   }, [isPaused]);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-24 relative overflow-hidden">
+    <section id="testimonials" ref={sectionRef} className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
@@ -167,16 +167,16 @@ export default function TestimonialsSection() {
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
               Client <span className="gradient-text">Success Stories</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
               Building lasting relationships through exceptional delivery and innovation
             </p>
           </motion.div>
@@ -187,22 +187,22 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-20"
+          className="mb-12 sm:mb-16 md:mb-20"
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {stats.map((stat, index) => (
               <Card 
                 key={index}
                 className="border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300"
               >
-                <CardContent className="p-6 text-center">
+                <CardContent className="p-4 sm:p-6 text-center">
                   <div className={`${stat.color} mb-3 flex justify-center`}>
                     {stat.icon}
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold mb-2">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                     <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                   </div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
                 </CardContent>
               </Card>
             ))}
@@ -214,13 +214,13 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mb-20"
+          className="mb-12 sm:mb-16 md:mb-20"
         >
           <div className="relative max-w-4xl mx-auto">
             <Quote className="absolute -top-4 -left-4 w-12 h-12 text-primary/20" />
             
             <div 
-              className="relative min-h-[320px] overflow-hidden"
+              className="relative min-h-[280px] sm:min-h-[320px] overflow-hidden"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
             >
@@ -248,7 +248,7 @@ export default function TestimonialsSection() {
                     }}
                   >
                     <Card className="border-0 bg-transparent shadow-none">
-                      <CardContent className="p-8 md:p-12">
+                      <CardContent className="p-6 sm:p-8 md:p-12">
                         {/* Rating */}
                         <div className="flex mb-6">
                           {[...Array(testimonial.rating)].map((_, i) => (
@@ -258,7 +258,7 @@ export default function TestimonialsSection() {
                         
                         {/* Testimonial Content */}
                         <motion.blockquote 
-                          className="text-xl md:text-2xl font-light mb-8 text-foreground/90 leading-relaxed"
+                          className="text-base sm:text-lg md:text-xl lg:text-2xl font-light mb-6 sm:mb-8 text-foreground/90 leading-relaxed"
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.2, duration: 0.6 }}
@@ -273,15 +273,15 @@ export default function TestimonialsSection() {
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.4, duration: 0.6 }}
                         >
-                          <Avatar className="w-12 h-12 md:w-14 md:h-14 mr-4">
+                          <Avatar className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 mr-3 sm:mr-4">
                             <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                             <AvatarFallback className="bg-primary/20 text-primary">
                               {testimonial.name.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-semibold text-lg">{testimonial.name}</p>
-                            <p className="text-muted-foreground">
+                            <p className="font-semibold text-base sm:text-lg">{testimonial.name}</p>
+                            <p className="text-sm sm:text-base text-muted-foreground">
                               {testimonial.role} at {testimonial.company}
                             </p>
                           </div>
@@ -342,11 +342,11 @@ export default function TestimonialsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <h3 className="text-3xl font-bold text-center mb-12">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10 md:mb-12">
             Recognition & <span className="gradient-text">Achievements</span>
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {achievements.map((achievement, index) => (
               <motion.div
                 key={index}
@@ -358,12 +358,12 @@ export default function TestimonialsSection() {
               >
                 <Card className="h-full border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300 overflow-hidden">
                   <div className={`h-2 bg-gradient-to-r ${achievement.color}`} />
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 sm:p-6">
                     <div className={`inline-flex p-3 rounded-lg bg-gradient-to-br ${achievement.color} text-white mb-4`}>
                       {achievement.icon}
                     </div>
-                    <h4 className="text-xl font-bold mb-2">{achievement.title}</h4>
-                    <p className="text-sm text-muted-foreground mb-3">{achievement.description}</p>
+                    <h4 className="text-lg sm:text-xl font-bold mb-2">{achievement.title}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-3">{achievement.description}</p>
                     <div className="flex justify-between items-center">
                       <p className="text-sm font-medium text-primary">{achievement.organization}</p>
                       <span className="text-sm text-muted-foreground">{achievement.year}</span>
