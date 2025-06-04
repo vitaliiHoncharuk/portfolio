@@ -5,21 +5,14 @@ import { ThemeProvider } from '@/components/theme-provider';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
+import FloatingFAQ from '@/components/ui/floating-faq';
 
 // Optimized font loading with display swap for better performance
 const inter = Inter({ 
   subsets: ['latin'], 
   variable: '--font-inter',
   display: 'swap',
-  preload: true,
-  fallback: [
-    'system-ui',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    'Segoe UI',
-    'Roboto',
-    'sans-serif'
-  ]
+  preload: true
 });
 
 export const metadata: Metadata = {
@@ -45,6 +38,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta charSet="utf-8" />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider 
           attribute="class" 
@@ -60,6 +56,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <FloatingFAQ />
         </ThemeProvider>
       </body>
     </html>
