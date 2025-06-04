@@ -214,28 +214,6 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Enhanced scroll indicator */}
-      <motion.div 
-        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1 }}
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-      >
-        <span className="text-sm text-muted-foreground mb-3 font-mono">scroll</span>
-        <motion.div
-          className="relative"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ 
-            duration: 1.5, 
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <ArrowDown className="h-5 w-5 text-primary" />
-          <ArrowDown className="h-5 w-5 text-primary/50 absolute top-2" />
-        </motion.div>
-      </motion.div>
     </motion.section>
   );
 }
