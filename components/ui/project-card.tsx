@@ -8,13 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription
-} from "@/components/ui/dialog";
+import { SimpleModal, ModalHeader, ModalTitle, ModalDescription } from "@/components/ui/simple-modal";
 
 interface Metric {
   label: string;
@@ -240,19 +234,22 @@ function ProjectModal({ project, isOpen, setIsOpen }: {
   setIsOpen: (open: boolean) => void;
 }) {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto glass border-border/20">
-        <DialogHeader>
-          <DialogTitle className="text-3xl font-bold flex items-center gap-3">
-            {project.icon}
-            {project.title}
-          </DialogTitle>
-          <DialogDescription>
-            <Badge variant="outline" className="mt-2">
-              {project.client}
-            </Badge>
-          </DialogDescription>
-        </DialogHeader>
+    <SimpleModal 
+      isOpen={isOpen} 
+      onClose={() => setIsOpen(false)}
+      className="glass border-border/20"
+      title={
+        <div className="flex items-center gap-3">
+          {project.icon}
+          {project.title}
+        </div>
+      }
+      description={
+        <Badge variant="outline" className="mt-2">
+          {project.client}
+        </Badge>
+      }
+    >
         
         <div className="relative h-64 md:h-96 w-full mt-6 rounded-lg overflow-hidden">
           <Image
@@ -323,7 +320,6 @@ function ProjectModal({ project, isOpen, setIsOpen }: {
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+    </SimpleModal>
   );
 }
