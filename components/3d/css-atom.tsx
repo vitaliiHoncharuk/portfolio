@@ -50,7 +50,7 @@ export default function CSSAtom() {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className="atom-container relative w-72 h-72 md:w-80 md:h-80"
+        className="atom-container relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80"
         style={{
           transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isHovered ? 1.05 : 1})`,
           transition: 'transform 0.3s ease-out',
@@ -61,9 +61,9 @@ export default function CSSAtom() {
         {/* Nucleus */}
         <div className="nucleus absolute inset-0 flex items-center justify-center">
           <div className="relative">
-            <div className="nucleus-glow absolute inset-0 w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 blur-xl" />
-            <div className="nucleus-core relative w-20 h-20 rounded-full bg-gradient-to-br from-primary via-secondary to-accent shadow-xl">
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-primary/40 to-transparent" />
+            <div className="nucleus-glow absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 blur-xl" />
+            <div className="nucleus-core relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-primary via-secondary to-accent shadow-xl">
+              <div className="absolute inset-1 sm:inset-2 rounded-full bg-gradient-to-br from-primary/40 to-transparent" />
             </div>
           </div>
         </div>
@@ -71,17 +71,17 @@ export default function CSSAtom() {
         {/* Electron Orbits */}
         <div className="orbit orbit-1 absolute inset-0">
           <div className="orbit-path absolute inset-0 rounded-full border border-primary/30" />
-          <div className="electron electron-1 absolute w-6 h-6 rounded-full bg-gradient-to-br from-primary to-blue-500 shadow-lg" />
+          <div className="electron electron-1 absolute w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-primary to-blue-500 shadow-lg" />
         </div>
 
         <div className="orbit orbit-2 absolute inset-0">
           <div className="orbit-path absolute inset-0 rounded-full border border-secondary/30" />
-          <div className="electron electron-2 absolute w-6 h-6 rounded-full bg-gradient-to-br from-secondary to-purple-500 shadow-lg" />
+          <div className="electron electron-2 absolute w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-secondary to-purple-500 shadow-lg" />
         </div>
 
         <div className="orbit orbit-3 absolute inset-0">
           <div className="orbit-path absolute inset-0 rounded-full border border-accent/30" />
-          <div className="electron electron-3 absolute w-6 h-6 rounded-full bg-gradient-to-br from-accent to-yellow-500 shadow-lg" />
+          <div className="electron electron-3 absolute w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-accent to-yellow-500 shadow-lg" />
         </div>
 
         {/* Reduced particles for performance */}
@@ -126,21 +126,33 @@ export default function CSSAtom() {
         }
         
         .electron-1 {
-          top: -3px;
+          top: -2px;
           left: 50%;
           transform: translateX(-50%);
         }
         
         .electron-2 {
-          bottom: -3px;
+          bottom: -2px;
           left: 50%;
           transform: translateX(-50%);
         }
         
         .electron-3 {
           top: 50%;
-          right: -3px;
+          right: -2px;
           transform: translateY(-50%);
+        }
+        
+        @media (min-width: 768px) {
+          .electron-1 {
+            top: -3px;
+          }
+          .electron-2 {
+            bottom: -3px;
+          }
+          .electron-3 {
+            right: -3px;
+          }
         }
         
         @keyframes rotate {
