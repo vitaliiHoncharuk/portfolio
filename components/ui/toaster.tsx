@@ -9,12 +9,14 @@ import {
   ToastTitle,
   ToastViewport,
 } from '@/components/ui/toast';
+import { ClientOnly } from '@/components/client-wrapper';
 
 export function Toaster() {
   const { toasts } = useToast();
 
   return (
-    <ToastProvider>
+    <ClientOnly>
+      <ToastProvider>
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
@@ -31,5 +33,6 @@ export function Toaster() {
       })}
       <ToastViewport />
     </ToastProvider>
+    </ClientOnly>
   );
 }

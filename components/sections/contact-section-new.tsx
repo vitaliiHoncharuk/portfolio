@@ -35,13 +35,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import Confetti from "@/components/ui/confetti";
 
@@ -834,72 +827,8 @@ export default function ContactSectionNew() {
           })}
         </motion.div>
 
-        {/* FAQ Section */}
-        <motion.div
-          className="mt-16 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <h3 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h3>
-          <Accordion type="single" collapsible className="space-y-2">
-            <AccordionItem value="item-1" className="border rounded-lg px-4">
-              <AccordionTrigger className="hover:no-underline">
-                What&apos;s your typical project timeline?
-              </AccordionTrigger>
-              <AccordionContent>
-                Project timelines vary based on scope and complexity. A typical website redesign takes 4-6 weeks, 
-                while a full-stack application can take 2-4 months. I&apos;ll provide a detailed timeline after understanding 
-                your specific requirements.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-2" className="border rounded-lg px-4">
-              <AccordionTrigger className="hover:no-underline">
-                Do you work with international clients?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes! I work with clients globally and have experience collaborating across different time zones. 
-                I&apos;m flexible with meeting times and use tools like Slack, Zoom, and project management platforms 
-                to ensure smooth communication.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-3" className="border rounded-lg px-4">
-              <AccordionTrigger className="hover:no-underline">
-                What technologies do you specialize in?
-              </AccordionTrigger>
-              <AccordionContent>
-                I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, and various 
-                databases. I&apos;m also experienced with cloud platforms like AWS and Vercel, and I stay updated with 
-                the latest industry trends and best practices.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-4" className="border rounded-lg px-4">
-              <AccordionTrigger className="hover:no-underline">
-                How do you handle project communication?
-              </AccordionTrigger>
-              <AccordionContent>
-                I believe in transparent and regular communication. You&apos;ll receive weekly progress updates, have access 
-                to a project dashboard, and we&apos;ll schedule regular check-ins. I&apos;m also available for quick questions 
-                via email or messaging throughout the project.
-              </AccordionContent>
-            </AccordionItem>
-            
-            <AccordionItem value="item-5" className="border rounded-lg px-4">
-              <AccordionTrigger className="hover:no-underline">
-                Do you provide ongoing support after project completion?
-              </AccordionTrigger>
-              <AccordionContent>
-                Absolutely! I offer various support packages including bug fixes, feature updates, and performance 
-                optimization. The first month after launch includes complimentary support, and we can discuss 
-                ongoing maintenance plans based on your needs.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </motion.div>
       </div>
+
     </section>
   );
 }

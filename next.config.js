@@ -19,11 +19,22 @@ const nextConfig = {
     webpackBuildWorker: true,
     optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion'],
   },
+  // Improve dev server stability
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 5,
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   // Webpack optimizations for better performance
   webpack: (config, { dev, isServer }) => {
+    // Fix development mode source map issues
+    if (dev && !isServer) {
+      // Override Next.js default eval-source-map to prevent syntax errors
+      config.devtool = 'cheap-module-source-map';
+    }
+    
     // Optimize bundle splitting
     if (!dev && !isServer) {
       config.optimization.splitChunks = {

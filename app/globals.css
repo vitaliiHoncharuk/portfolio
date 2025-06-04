@@ -65,7 +65,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    contain: layout style;
+    /* Removed contain property to fix position:fixed issues */
   }
 }
 
