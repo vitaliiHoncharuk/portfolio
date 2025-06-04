@@ -5,105 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cef27ca-25a1-43b7-90f2-c7bf6017f1cc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/3d/hero-canvas.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/3d/skills-canvas.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/layout/footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/layout/header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/about-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/code-showcase-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/contact-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/experience-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/hero-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/projects-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/skills-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/sections/testimonials-section.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/theme-provider.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/accordion.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/alert-dialog.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/alert.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/aspect-ratio.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/avatar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/badge.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/breadcrumb.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/button.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/calendar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/card.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/carousel.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/chart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/checkbox.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/code-snippet.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/collapsible.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/command.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/context-menu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/dialog.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/drawer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/dropdown-menu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/form.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/hover-card.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/input-otp.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/label.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/menubar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/navigation-menu.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/pagination.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/popover.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/progress.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/project-card.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/radio-group.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/resizable.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/scroll-area.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/select.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/separator.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/sheet.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/skeleton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/slider.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/sonner.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/switch.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/table.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/tabs.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/textarea.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/toast.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/toaster.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/toggle-group.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/toggle.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/tooltip.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/use-toast.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/use-toast.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/postcss.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components.json" beforeDir="false" afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/3d/ReactLogo3D.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/3d/SkillsSphere.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Footer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/layout/Header.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/About.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/Contact.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/Experience.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/Hero.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/Projects.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/sections/Skills.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postcss.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/cv.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sections/hero-section.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sections/hero-section.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +15,27 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="enhance/contact-section" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;vitaliiHoncharuk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/vitaliiHoncharuk/portfolio.git&quot;,
+    &quot;accountId&quot;: &quot;219acce9-1c88-46be-8c12-d3b104cf14b3&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -126,7 +50,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/mobile-optimization&quot;,
     &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
     &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/vitalii.honcharuk/Downloads/portfolio&quot;,
@@ -194,5 +118,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="improve" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve" />
   </component>
 </project>

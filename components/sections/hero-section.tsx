@@ -11,8 +11,8 @@ const CSSAtom = lazy(() => import("@/components/3d/css-atom"));
 // Loading placeholder for 3D component
 const AtomLoadingPlaceholder = () => (
   <div className="w-full h-full flex items-center justify-center">
-    <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse flex items-center justify-center">
-      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 animate-pulse" />
+    <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse flex items-center justify-center">
+      <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 animate-pulse" />
     </div>
   </div>
 );
@@ -31,6 +31,10 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (!mounted) return;
+    
+    // Disable mouse tracking on mobile for performance
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
     
     const handleMouseMove = (e: MouseEvent) => {
       const rect = sectionRef.current?.getBoundingClientRect();
@@ -58,11 +62,11 @@ export default function HeroSection() {
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 noise" />
       
-      {/* Floating elements */}
+      {/* Floating elements - optimized for mobile */}
       {mounted && (
         <>
           <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+            className="absolute top-10 sm:top-20 left-2 sm:left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-72 md:h-72 bg-primary/10 sm:bg-primary/20 rounded-full blur-2xl sm:blur-3xl"
             animate={{
               x: mousePosition.x * 50,
               y: mousePosition.y * 50,
@@ -70,7 +74,7 @@ export default function HeroSection() {
             transition={{ type: "spring", damping: 30 }}
           />
           <motion.div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"
+            className="absolute bottom-10 sm:bottom-20 right-2 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-secondary/10 sm:bg-secondary/20 rounded-full blur-2xl sm:blur-3xl"
             animate={{
               x: mousePosition.x * -30,
               y: mousePosition.y * -30,
@@ -80,7 +84,7 @@ export default function HeroSection() {
         </>
       )}
 
-      <div className="container mx-auto px-4 pt-32 pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="container mx-auto px-4 pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         <motion.div 
           className="w-full lg:w-1/2 max-w-2xl"
           initial={{ opacity: 0, x: -50 }}
@@ -99,17 +103,17 @@ export default function HeroSection() {
           </motion.div>
           
           <motion.h1 
-            className="font-bold mb-6"
+            className="font-bold mb-4 sm:mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="block text-3xl md:text-5xl lg:text-6xl mb-2">I&apos;m</span>
-            <span className="block gradient-text text-5xl md:text-7xl lg:text-8xl">Vitalii Honcharuk</span>
+            <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl mb-1 sm:mb-2">I&apos;m</span>
+            <span className="block gradient-text text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight">Vitalii Honcharuk</span>
           </motion.h1>
           
           <motion.h2 
-            className="text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-8 font-light"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-foreground/80 mb-6 sm:mb-8 font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -119,7 +123,7 @@ export default function HeroSection() {
             <span className="text-secondary font-medium"> scalable</span> solutions
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground max-w-xl mb-10 leading-relaxed"
+            className="text-base sm:text-lg text-muted-foreground max-w-xl mb-8 sm:mb-10 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -132,7 +136,7 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.div 
-            className="flex flex-wrap gap-4 mb-12"
+            className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
@@ -140,7 +144,7 @@ export default function HeroSection() {
             <Button 
               asChild 
               size="lg" 
-              className="group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
+              className="group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 w-full sm:w-auto min-h-[48px]"
             >
               <a href="#projects">
                 <span className="relative z-10 flex items-center gap-2">
@@ -154,7 +158,7 @@ export default function HeroSection() {
               asChild 
               variant="outline" 
               size="lg" 
-              className="group border-border hover:border-primary text-foreground hover:text-primary transition-all duration-300"
+              className="group border-border hover:border-primary text-foreground hover:text-primary transition-all duration-300 w-full sm:w-auto min-h-[48px]"
             >
               <a href="/resume.pdf" download="Vitalii_Honcharuk_CV.pdf">
                 <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" /> 
@@ -165,7 +169,7 @@ export default function HeroSection() {
           
           {/* Social links */}
           <motion.div 
-            className="flex gap-4"
+            className="flex gap-3 sm:gap-4 justify-center sm:justify-start"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -174,7 +178,7 @@ export default function HeroSection() {
               href="https://github.com/yourusername" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -182,13 +186,13 @@ export default function HeroSection() {
               href="https://linkedin.com/in/yourusername" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
             >
               <Linkedin className="w-5 h-5" />
             </a>
             <a 
               href="mailto:your.email@example.com"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
             >
               <Mail className="w-5 h-5" />
             </a>
@@ -196,7 +200,7 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.div 
-          className="w-full lg:w-1/2 h-[400px] lg:h-[600px] mt-10 lg:mt-0"
+          className="w-full lg:w-1/2 h-[280px] sm:h-[320px] md:h-[400px] lg:h-[500px] xl:h-[600px] mt-6 sm:mt-8 lg:mt-0"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -212,7 +216,7 @@ export default function HeroSection() {
 
       {/* Enhanced scroll indicator */}
       <motion.div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer"
+        className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center cursor-pointer"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 1 }}

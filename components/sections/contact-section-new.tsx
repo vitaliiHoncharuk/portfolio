@@ -164,7 +164,7 @@ export default function ContactSectionNew() {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="min-h-screen relative overflow-hidden flex items-center py-20">
+    <section id="contact" ref={sectionRef} className="min-h-screen relative overflow-hidden flex items-center py-12 sm:py-16 md:py-20">
       {/* Confetti Animation */}
       <Confetti active={showConfetti} />
       {/* Animated background */}
@@ -193,10 +193,10 @@ export default function ContactSectionNew() {
             <Sparkles className="w-3 h-3 mr-1" />
             Let&apos;s Create Something Amazing
           </Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             Ready to Start Your <span className="gradient-text">Next Project?</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             Choose how you&apos;d like to connect and let&apos;s turn your vision into reality
           </p>
         </motion.div>
@@ -227,7 +227,7 @@ export default function ContactSectionNew() {
 
         {/* Contact Method Selector */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -241,7 +241,7 @@ export default function ContactSectionNew() {
                 key={method.id}
                 onClick={() => setSelectedMethod(method.id as any)}
                 className={cn(
-                  "relative p-6 rounded-xl border-2 transition-all duration-500 text-left group overflow-hidden",
+                  "relative p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl border-2 transition-all duration-500 text-left group overflow-hidden",
                   isSelected 
                     ? "border-primary bg-primary/5 shadow-lg shadow-primary/15" 
                     : "border-border/20 hover:border-primary/30 bg-background/30 backdrop-blur-sm hover:bg-background/50"
@@ -288,7 +288,7 @@ export default function ContactSectionNew() {
                 <div className="relative">
                   <motion.div 
                     className={cn(
-                      "w-12 h-12 rounded-lg flex items-center justify-center mb-4 bg-gradient-to-br text-white shadow-md relative overflow-hidden",
+                      "w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mb-3 sm:mb-4 bg-gradient-to-br text-white shadow-md relative overflow-hidden",
                       method.color
                     )}
                     whileHover={{ 
@@ -297,12 +297,12 @@ export default function ContactSectionNew() {
                       transition: { duration: 0.3 }
                     }}
                   >
-                    <Icon className="w-6 h-6 relative z-10" />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
                     {/* Icon glow effect */}
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                   </motion.div>
-                  <h3 className="font-semibold mb-2">{method.title}</h3>
-                  <p className="text-sm text-muted-foreground">{method.description}</p>
+                  <h3 className="font-semibold mb-2 text-sm sm:text-base">{method.title}</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{method.description}</p>
                   
                   {isSelected && (
                     <motion.div
