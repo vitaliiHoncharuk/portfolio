@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { 
   Mail, 
   MessageSquare, 
@@ -74,7 +74,7 @@ const timelines = [
 export default function ContactSectionNew() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const { toast } = useToast();
+  // Using Sonner toast imported above
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState<"form" | "schedule" | "direct">("form");
   const [showConfetti, setShowConfetti] = useState(false);
@@ -95,11 +95,7 @@ export default function ContactSectionNew() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    
-    // Show toast immediately
-    toast({
-      title: "Message sent successfully! 🎉",
+    toast.success("Message sent successfully! 🎉", {
       description: "I'll get back to you within 24 hours.",
     });
     
