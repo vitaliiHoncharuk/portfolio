@@ -24,18 +24,34 @@ export function SimpleModal({
   overlayClassName,
 }: SimpleModalProps) {
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    // Only run on client side and ensure document.body exists
+    if (typeof window === 'undefined' || !document.body) return
+
+    try {
+      if (isOpen) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'unset';
+      }
+    } catch (error) {
+      console.warn('Error setting body overflow:', error)
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      try {
+        if (document.body) {
+          document.body.style.overflow = 'unset';
+        }
+      } catch (error) {
+        console.warn('Error resetting body overflow:', error)
+      }
     };
   }, [isOpen]);
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();

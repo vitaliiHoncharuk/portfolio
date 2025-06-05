@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ExternalLink, Github, BarChart, Code2, Shield, Brain, Sparkles, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -104,12 +104,6 @@ export default function ProjectsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   const filteredProjects = selectedCategory === "all" 
     ? projects 
@@ -128,13 +122,10 @@ export default function ProjectsSection() {
   return (
     <section id="projects" ref={sectionRef} className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
       {/* Background decoration */}
-      <motion.div 
-        className="absolute inset-0 opacity-30"
-        style={{ y: parallaxY }}
-      >
+      <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-      </motion.div>
+      </div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-10 sm:mb-12 md:mb-16">
