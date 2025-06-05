@@ -74,10 +74,17 @@ const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const id = React.useId();
+  const [mounted, setMounted] = React.useState(false);
+  const [id, setId] = React.useState('form-item');
+
+  React.useEffect(() => {
+    setMounted(true);
+    // Generate a stable ID only on client side to avoid hydration mismatch
+    setId(`form-item-${Math.random().toString(36).substring(2, 9)}`);
+  }, []);
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={{ id: mounted ? id : 'form-item' }}>
       <div ref={ref} className={cn('space-y-2', className)} {...props} />
     </FormItemContext.Provider>
   );

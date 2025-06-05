@@ -56,7 +56,7 @@ export default function CSSParticles({ count = 50, className = "" }: CSSParticle
   }, []);
 
   return (
-    <div ref={containerRef} className={`${styles.particleContainer} ${className}`}>
+    <div ref={containerRef} className={`${styles.particleContainer} ${className}`} suppressHydrationWarning>
       <div className={styles.particleField}>
         {particles.map((particle) => (
           <div

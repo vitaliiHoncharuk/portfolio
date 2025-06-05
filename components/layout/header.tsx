@@ -19,9 +19,15 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // Set mounted state to true after component mounts
+    setMounted(true)
+    
     const handleScroll = () => {
+      if (typeof window === 'undefined') return
+      
       setIsScrolled(window.scrollY > 50)
       
       // Update active section based on scroll position
@@ -41,11 +47,11 @@ export default function Header() {
     // Initialize state based on current scroll position after mount
     if (typeof window !== 'undefined') {
       handleScroll()
-    }
-    
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
+      window.addEventListener('scroll', handleScroll)
+      
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
     }
   }, [])
 

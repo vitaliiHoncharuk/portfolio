@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -37,11 +37,21 @@ export default function ContactSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const { toast } = useToast();
+  const [mounted, setMounted] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   
-  // Check for reduced motion preference
-  const prefersReducedMotion = typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false;
+  // Check for reduced motion preference with proper hydration handling
+  useEffect(() => {
+    setMounted(true);
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mediaQuery.matches);
+      
+      const handleChange = () => setPrefersReducedMotion(mediaQuery.matches);
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, []);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,7 +99,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="min-h-screen max-h-screen relative overflow-hidden flex items-center">
+    <section id="contact" ref={sectionRef} className="min-h-screen max-h-screen relative overflow-hidden flex items-center" suppressHydrationWarning>
       {/* Animated gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/20 to-background" />
       
