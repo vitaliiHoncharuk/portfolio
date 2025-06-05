@@ -133,7 +133,17 @@ export default function FloatingFAQ() {
                   <button
                     onClick={() => {
                       setIsOpen(false);
-                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                      // Safe DOM access
+                      if (typeof window !== 'undefined') {
+                        try {
+                          const contactElement = document.getElementById('contact');
+                          if (contactElement) {
+                            contactElement.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        } catch (error) {
+                          console.warn('Error scrolling to contact:', error);
+                        }
+                      }
                     }}
                     className="w-full text-xs bg-primary text-primary-foreground rounded-lg py-2 hover:bg-primary/90 transition-colors"
                   >
