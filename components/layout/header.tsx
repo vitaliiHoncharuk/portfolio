@@ -27,89 +27,32 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    // Only run on client side and after mount
-    if (typeof window === 'undefined' || !mounted) return
+    if (!mounted) return
 
     const handleScroll = () => {
-      try {
-        setIsScrolled(window.scrollY > 50)
-        
-        // Update active section based on scroll position
-        const sections = ['home', 'about', 'experience', 'projects', 'skills', 'contact']
-        for (const section of sections) {
-          const element = document.getElementById(section)
-          if (element) {
-            const rect = element.getBoundingClientRect()
-            if (rect.top <= 100 && rect.bottom >= 100) {
-              setActiveSection(section)
-              break
-            }
+      setIsScrolled(window.scrollY > 50)
+      
+      // Update active section based on scroll position
+      const sections = ['home', 'about', 'experience', 'projects', 'skills', 'contact']
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section)
+            break
           }
         }
-      } catch (error) {
-        console.warn('Error in scroll handler:', error)
       }
     }
     
-    // Initialize state based on current scroll position after mount
     handleScroll()
-    
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [mounted])
 
-  // Early return if not mounted to prevent SSR issues
   if (!mounted) {
-    return (
-      <motion.header
-        className={cn(
-          'fixed top-0 w-full z-[100] transition-all duration-500',
-          'bg-transparent py-6'
-        )}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="container mx-auto flex items-center justify-between px-4">
-          <Link href="/" className="group flex items-center gap-2">
-            <motion.div className="relative" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <Code2 className="w-5 h-5 text-background" />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-lg blur-lg opacity-50 group-hover:opacity-100 transition-opacity" />
-            </motion.div>
-            <span className="text-xl font-bold gradient-text hidden sm:block">VH</span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Link href={item.href} className="group relative text-sm font-medium transition-colors text-muted-foreground hover:text-foreground">
-                  <span className="text-xs text-primary font-mono mr-1">{item.number}.</span>
-                  {item.name}
-                  <span className="absolute -bottom-2 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full" />
-                </Link>
-              </motion.div>
-            ))}
-            <Button asChild variant="outline" className="group border-primary text-primary hover:bg-primary hover:text-background transition-all duration-300">
-              <a href="#contact" className="flex items-center gap-2">
-                Let&apos;s Talk
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </Button>
-          </nav>
-          <Button variant="ghost" size="icon" className="md:hidden relative" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
-      </motion.header>
-    )
+    return null
   }
 
   return (
@@ -126,15 +69,8 @@ export default function Header() {
         transition={{ duration: 0.5 }}
       >
         <div className="container mx-auto flex items-center justify-between px-4">
-          <Link 
-            href="/" 
-            className="group flex items-center gap-2"
-          >
-            <motion.div 
-              className="relative"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
+          <Link href="/" className="group flex items-center gap-2">
+            <motion.div className="relative" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                 <Code2 className="w-5 h-5 text-background" />
               </div>
@@ -202,8 +138,8 @@ export default function Header() {
         </div>
       </motion.header>
 
-      {/* Mobile Navigation - Rendered via Portal with better error handling */}
-      {mounted && typeof window !== 'undefined' && document.body && createPortal(
+      {/* Mobile Navigation */}
+      {typeof window !== 'undefined' && document.body && createPortal(
         <AnimatePresence>
           {mobileMenuOpen && (
             <>

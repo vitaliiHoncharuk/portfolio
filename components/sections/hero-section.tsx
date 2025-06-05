@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState, lazy, Suspense } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin, Mail, Code2, Sparkles } from "lucide-react";
+import { useEffect, useState, lazy, Suspense } from "react";
+import { motion } from "framer-motion";
+import { Download, Github, Linkedin, Mail, Code2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Lazy load the optimized 3D component
@@ -11,143 +11,132 @@ const CSSAtom = lazy(() => import("@/components/3d/css-atom"));
 // Loading placeholder for 3D component
 const AtomLoadingPlaceholder = () => (
   <div className="w-full h-full flex items-center justify-center">
-    <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse flex items-center justify-center">
-      <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 animate-pulse" />
+    <div className="relative w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[280px] md:h-[280px] lg:w-[340px] lg:h-[340px] rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 animate-pulse flex items-center justify-center">
+      <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 lg:w-18 lg:h-18 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 animate-pulse" />
     </div>
   </div>
 );
 
 export default function HeroSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    
-    // Disable mouse tracking on mobile for performance
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) return;
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = sectionRef.current?.getBoundingClientRect();
-      if (rect) {
-        setMousePosition({
-          x: (e.clientX - rect.left) / rect.width - 0.5,
-          y: (e.clientY - rect.top) / rect.height - 0.5,
-        });
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mounted]);
-
   return (
     <motion.section
       id="home"
-      ref={sectionRef}
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={mounted ? { opacity, scale } : { opacity: 1, scale: 1 }}
+      className="relative min-h-screen flex items-center justify-center pt-16 pb-8 sm:pt-8 overflow-hidden"
     >
       {/* Enhanced background with multiple layers */}
       <div className="absolute inset-0 mesh-gradient" />
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 noise" />
       
-      {/* Floating elements - optimized for mobile */}
-      {mounted && (
-        <>
-          <motion.div
-            className="absolute top-10 sm:top-20 left-2 sm:left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-72 md:h-72 bg-primary/10 sm:bg-primary/20 rounded-full blur-2xl sm:blur-3xl"
-            animate={{
-              x: mousePosition.x * 50,
-              y: mousePosition.y * 50,
-            }}
-            transition={{ type: "spring", damping: 30 }}
-          />
-          <motion.div
-            className="absolute bottom-10 sm:bottom-20 right-2 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-secondary/10 sm:bg-secondary/20 rounded-full blur-2xl sm:blur-3xl"
-            animate={{
-              x: mousePosition.x * -30,
-              y: mousePosition.y * -30,
-            }}
-            transition={{ type: "spring", damping: 30 }}
-          />
-        </>
-      )}
 
-      <div className="container mx-auto px-4 pt-16 sm:pt-20 md:pt-24 lg:pt-32 pb-8 sm:pb-12 md:pb-16 lg:pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-12">
-        <motion.div 
-          className="w-full lg:w-1/2 max-w-2xl text-center lg:text-left"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          {/* Animated greeting */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      {/* Console greeting - hidden on mobile, bottom left on desktop */}
+      <motion.div
+        className="hidden sm:block absolute bottom-8 left-8 z-20"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1.2 }}
+      >
+        <div className="flex items-center gap-2 px-3 py-2 bg-background/60 backdrop-blur-sm border border-border/30 rounded-lg">
+          <Code2 className="w-3 h-3 text-primary/70 animate-pulse" />
+          <span className="text-primary/70 font-mono text-xs">console.log(hello)</span>
+        </div>
+      </motion.div>
+
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full flex items-center justify-center">
+        <div className="w-full max-w-5xl mx-auto">
+          <div className="flex flex-col items-center gap-6 sm:gap-8 lg:gap-12">
+          
+          {/* Introduction Text */}
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 mb-4 sm:mb-6"
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <Code2 className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-            <span className="text-primary font-mono text-xs sm:text-sm">console.log(&apos;Hello, World!&apos;);</span>
-          </motion.div>
           
           <motion.h1 
-            className="font-bold mb-3 sm:mb-4 md:mb-6"
+            className="font-bold mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="block text-xl sm:text-2xl md:text-4xl lg:text-5xl mb-1">I&apos;m</span>
-            <span className="block gradient-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">Vitalii Honcharuk</span>
+            <span className="block text-lg sm:text-2xl md:text-3xl lg:text-4xl text-foreground/80 mb-1 sm:mb-2">
+              Hi, I am
+            </span>
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight">
+              <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent font-extrabold animate-gradient bg-300%">
+                Vitalii Honcharuk
+              </span>
+            </span>
           </motion.h1>
           
           <motion.h2 
-            className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground/80 mb-4 sm:mb-6 font-light leading-relaxed"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-foreground/90 font-light leading-relaxed text-center px-2 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Senior React Developer crafting
-            <span className="text-primary font-medium"> performant</span> &
-            <span className="text-secondary font-medium"> scalable</span> solutions
+            Senior React Developer crafting{' '}
+            <span className="relative">
+              <span className="text-primary font-semibold">performant</span>
+              <motion.span 
+                className="absolute -bottom-1 left-0 w-full h-0.5 sm:h-1 bg-primary/30 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              />
+            </span>
+            {' & '}
+            <span className="relative">
+              <span className="text-secondary font-semibold">scalable</span>
+              <motion.span 
+                className="absolute -bottom-1 left-0 w-full h-0.5 sm:h-1 bg-secondary/30 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 0.8, delay: 1 }}
+              />
+            </span>
+            {' solutions'}
           </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-xl mb-6 sm:mb-8 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <span className="hidden sm:inline">
-              With <span className="text-foreground font-medium">5+ years</span> of experience specializing in 
-              <span className="text-primary"> FinTech</span>, 
-              <span className="text-primary"> performance optimization</span>, and 
-              <span className="text-primary"> microfrontend architecture</span>. 
-              I transform complex problems into elegant, user-centric solutions.
-            </span>
-            <span className="sm:hidden">
-              <span className="text-foreground font-medium">5+ years</span> of experience in 
-              <span className="text-primary">FinTech</span> and 
-              <span className="text-primary">performance optimization</span>. 
-              Transforming ideas into elegant solutions.
-            </span>
-          </motion.p>
+        </motion.div>
 
+        {/* CSS Atom Visual - Properly contained on mobile */}
+        <motion.div 
+          className="flex justify-center items-center relative overflow-hidden px-4 sm:px-0"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          suppressHydrationWarning
+        >
+          <div className="w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[280px] md:h-[280px] lg:w-[340px] lg:h-[340px] relative overflow-hidden">
+            {mounted && (
+              <Suspense fallback={<AtomLoadingPlaceholder />}>
+                <CSSAtom />
+              </Suspense>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Actions */}
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+
+          {/* Buttons */}
           <motion.div 
-            className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8 justify-center w-full max-w-md sm:max-w-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
           >
             <Button 
               asChild 
@@ -175,18 +164,18 @@ export default function HeroSection() {
             </Button>
           </motion.div>
           
-          {/* Social links */}
+          {/* Social links - Hidden on mobile */}
           <motion.div 
-            className="flex gap-3 sm:gap-4 justify-center lg:justify-start"
+            className="hidden sm:flex gap-3 sm:gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
           >
             <a 
               href="https://github.com/yourusername" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              className="p-2.5 sm:p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px] flex items-center justify-center"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -194,32 +183,21 @@ export default function HeroSection() {
               href="https://linkedin.com/in/yourusername" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              className="p-2.5 sm:p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px] flex items-center justify-center"
             >
               <Linkedin className="w-5 h-5" />
             </a>
             <a 
               href="mailto:your.email@example.com"
-              className="p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              className="p-2.5 sm:p-3 rounded-lg bg-muted/50 hover:bg-muted hover:text-primary transition-all duration-300 hover:scale-110 min-w-[44px] min-h-[44px] sm:min-w-[48px] sm:min-h-[48px] flex items-center justify-center"
             >
               <Mail className="w-5 h-5" />
             </a>
           </motion.div>
         </motion.div>
-
-        <motion.div 
-          className="w-full lg:w-1/2 h-[240px] sm:h-[280px] md:h-[350px] lg:h-[450px] xl:h-[550px] mt-4 sm:mt-6 lg:mt-0 order-first lg:order-last"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          suppressHydrationWarning
-        >
-          {mounted && (
-            <Suspense fallback={<AtomLoadingPlaceholder />}>
-              <CSSAtom />
-            </Suspense>
-          )}
-        </motion.div>
+        
+          </div>
+        </div>
       </div>
 
     </motion.section>

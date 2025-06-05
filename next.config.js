@@ -29,10 +29,12 @@ const nextConfig = {
   },
   // Webpack optimizations for better performance
   webpack: (config, { dev, isServer }) => {
-    // Fix development mode source map issues
-    if (dev && !isServer) {
-      // Override Next.js default eval-source-map to prevent syntax errors
-      config.devtool = 'cheap-module-source-map';
+    // Prevent syntax errors in static export builds
+    if (dev) {
+      // Use individual style properties approach (per CLAUDE.md)
+      config.devtool = 'eval-cheap-module-source-map';
+    } else if (!isServer) {
+      config.devtool = false;
     }
     
     // Optimize bundle splitting

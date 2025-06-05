@@ -148,7 +148,7 @@ const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[
   return (
     <motion.div
       ref={cardRef}
-      key={`${skill.name}-${filterTrigger}`}
+      key={skill.name + '-' + filterTrigger}
       className="group relative transition-transform duration-300 ease-out hover:scale-105"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -169,7 +169,7 @@ const SkillCard = memo(({ skill, index, filterTrigger }: { skill: typeof skills[
           style={{
             background: `linear-gradient(135deg, ${skill.color}15 0%, ${skill.color}05 100%)`,
             borderColor: `${skill.color}50`,
-            boxShadow: `0 5px 15px rgba(0,0,0,0.1)`,
+            boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
           }}
         >
           {/* Technology Logo */}

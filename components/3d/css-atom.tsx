@@ -52,7 +52,7 @@ export default function CSSAtom() {
       <div
         className="atom-container relative w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80"
         style={{
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isHovered ? 1.05 : 1})`,
+          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
           transition: 'transform 0.3s ease-out',
           willChange: 'transform',
           contain: 'layout style paint',
@@ -84,21 +84,11 @@ export default function CSSAtom() {
           <div className="electron electron-3 absolute w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-accent to-yellow-500 shadow-lg" />
         </div>
 
-        {/* Reduced particles for performance */}
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="particle absolute rounded-full pointer-events-none"
-            style={{
-              width: '3px',
-              height: '3px',
-              background: ['rgba(96, 165, 250, 0.6)', 'rgba(192, 132, 252, 0.6)', 'rgba(244, 114, 182, 0.6)', 'rgba(251, 191, 36, 0.6)'][i],
-              left: `${25 + i * 15}%`,
-              top: `${30 + i * 10}%`,
-              animation: `float-${i + 1} ${4 + i}s ease-in-out infinite`,
-            }}
-          />
-        ))}
+        {/* Static positioned particles for performance */}
+        <div className="particle particle-1 absolute w-1 h-1 rounded-full bg-blue-400/60" />
+        <div className="particle particle-2 absolute w-1 h-1 rounded-full bg-purple-400/60" />
+        <div className="particle particle-3 absolute w-1 h-1 rounded-full bg-pink-400/60" />
+        <div className="particle particle-4 absolute w-1 h-1 rounded-full bg-yellow-400/60" />
       </div>
 
       <style jsx>{`
@@ -141,6 +131,30 @@ export default function CSSAtom() {
           top: 50%;
           right: -2px;
           transform: translateY(-50%);
+        }
+        
+        .particle-1 {
+          left: 25%;
+          top: 30%;
+          animation: float-1 4s ease-in-out infinite;
+        }
+        
+        .particle-2 {
+          left: 40%;
+          top: 40%;
+          animation: float-2 5s ease-in-out infinite;
+        }
+        
+        .particle-3 {
+          left: 55%;
+          top: 50%;
+          animation: float-3 6s ease-in-out infinite;
+        }
+        
+        .particle-4 {
+          left: 70%;
+          top: 60%;
+          animation: float-4 7s ease-in-out infinite;
         }
         
         @media (min-width: 768px) {
