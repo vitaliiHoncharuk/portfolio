@@ -44,7 +44,6 @@ export default function Header() {
       }
     }
     
-    // Initialize state based on current scroll position after mount
     if (typeof window !== 'undefined') {
       handleScroll()
       window.addEventListener('scroll', handleScroll)
@@ -147,13 +146,13 @@ export default function Header() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            className="fixed inset-0 top-0 bg-background z-40 md:hidden"
+            className="fixed inset-0 bg-background/95 backdrop-blur-lg z-[60] md:hidden"
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
           >
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full bg-background">
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                   <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">

@@ -99,7 +99,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="min-h-screen max-h-screen relative overflow-hidden flex items-center" suppressHydrationWarning>
+    <section id="contact" ref={sectionRef} className="min-h-screen max-h-screen relative overflow-hidden flex items-center">
       {/* Animated gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/20 to-background" />
       

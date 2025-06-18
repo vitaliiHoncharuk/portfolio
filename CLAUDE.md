@@ -114,21 +114,6 @@ portfolio/
 - **Forms**: React Hook Form with Zod validation
 - **Imports**: Organize imports (React, Next, third-party, local)
 
-## Common Patterns
-```typescript
-// Animation with reduced motion support
-const prefersReducedMotion = typeof window !== 'undefined' 
-  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-  : false;
-
-// GPU-accelerated animations
-style={{ transform: 'translateZ(0)' }}
-className="will-change-transform"
-
-// Responsive text sizes
-className="text-base md:text-lg lg:text-xl"
-```
-
 ## Current Section Status
 - **Hero**: ✅ Complete with 3D effects
 - **About**: ✅ Complete with stats
@@ -157,8 +142,62 @@ className="text-base md:text-lg lg:text-xl"
 3. Check animations with Chrome DevTools Performance tab
 4. Ensure all new components follow the established patterns
 5. Keep accessibility in mind (ARIA labels, keyboard navigation)
+6. **NEVER use suppressHydrationWarning** - Always fix hydration mismatches properly by ensuring server and client renders match
 
 ## Common Issues & Prevention
+
+### Hydration Mismatch Prevention
+
+**CRITICAL: Never use `suppressHydrationWarning`** - This hides errors but doesn't fix them, leading to blank screens and broken functionality.
+
+#### Common Hydration Issues & Solutions:
+
+1. **Client-Only Features in SSR**
+   ```typescript
+   // ❌ BAD - Will cause hydration mismatch
+   const CSSAtom = lazy(() => import("@/components/3d/css-atom"));
+   
+   // ✅ GOOD - Use dynamic import with ssr: false
+   const CSSAtom = dynamic(() => import("@/components/3d/css-atom"), {
+     ssr: false,
+     loading: () => <AtomLoadingPlaceholder />
+   });
+   ```
+
+2. **Browser-Only APIs**
+   ```typescript
+   // ❌ BAD - window doesn't exist on server
+   const width = window.innerWidth;
+   
+   // ✅ GOOD - Check for client-side
+   const [width, setWidth] = useState(0);
+   useEffect(() => {
+     setWidth(window.innerWidth);
+   }, []);
+   ```
+
+3. **Date/Time Rendering**
+   ```typescript
+   // ❌ BAD - Different on server/client
+   <div>{new Date().toLocaleString()}</div>
+   
+   // ✅ GOOD - Use consistent formatting or client-only
+   const [date, setDate] = useState<string>('');
+   useEffect(() => {
+     setDate(new Date().toLocaleString());
+   }, []);
+   ```
+
+4. **Theme/Dark Mode**
+   ```typescript
+   // ✅ GOOD - Use proper theme provider setup
+   <ThemeProvider 
+     attribute="class" 
+     defaultTheme="dark" 
+     enableSystem={false}
+     disableTransitionOnChange
+   >
+   ```
 
 ### "Uncaught SyntaxError: Invalid or unexpected token" Prevention
 

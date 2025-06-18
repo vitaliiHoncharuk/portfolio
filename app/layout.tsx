@@ -6,6 +6,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import FloatingFAQ from '@/components/ui/floating-faq';
+import { WebVitals } from './web-vitals';
 
 // Optimized font loading with display swap for better performance
 const inter = Inter({ 
@@ -37,9 +38,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <meta charSet="utf-8" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('portfolio-theme') === 'dark' || (!localStorage.getItem('portfolio-theme'))) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch {}
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider 
@@ -47,6 +60,7 @@ export default function RootLayout({
           defaultTheme="dark" 
           enableSystem={false}
           disableTransitionOnChange
+          storageKey="portfolio-theme"
         >
           <div className="flex flex-col min-h-screen">
             <Header />
@@ -57,6 +71,7 @@ export default function RootLayout({
           </div>
           <Toaster />
           <FloatingFAQ />
+          <WebVitals />
         </ThemeProvider>
       </body>
     </html>

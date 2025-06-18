@@ -1,12 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useState, lazy, Suspense } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Download, Github, Linkedin, Mail, Code2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Lazy load the optimized 3D component
-const CSSAtom = lazy(() => import("@/components/3d/css-atom"));
+import dynamic from "next/dynamic";
 
 // Loading placeholder for 3D component
 const AtomLoadingPlaceholder = () => (
@@ -17,72 +15,31 @@ const AtomLoadingPlaceholder = () => (
   </div>
 );
 
+// Use Next.js dynamic import to prevent hydration issues
+const CSSAtom = dynamic(() => import("@/components/3d/css-atom"), {
+  ssr: false,
+  loading: () => <AtomLoadingPlaceholder />
+});
+
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [mounted, setMounted] = useState(false);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    
-    // Disable mouse tracking on mobile for performance
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) return;
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = sectionRef.current?.getBoundingClientRect();
-      if (rect) {
-        setMousePosition({
-          x: (e.clientX - rect.left) / rect.width - 0.5,
-          y: (e.clientY - rect.top) / rect.height - 0.5,
-        });
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mounted]);
 
   return (
     <motion.section
       id="home"
       ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={mounted ? { opacity, scale } : { opacity: 1, scale: 1 }}
+      style={{ opacity, scale }}
     >
       {/* Enhanced background with multiple layers */}
       <div className="absolute inset-0 mesh-gradient" />
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 noise" />
       
-      {/* Floating elements - optimized for mobile */}
-      {mounted && (
-        <>
-          <motion.div
-            className="absolute top-10 sm:top-20 left-2 sm:left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-72 md:h-72 bg-primary/10 sm:bg-primary/20 rounded-full blur-2xl sm:blur-3xl"
-            animate={{
-              x: mousePosition.x * 50,
-              y: mousePosition.y * 50,
-            }}
-            transition={{ type: "spring", damping: 30 }}
-          />
-          <motion.div
-            className="absolute bottom-10 sm:bottom-20 right-2 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-secondary/10 sm:bg-secondary/20 rounded-full blur-2xl sm:blur-3xl"
-            animate={{
-              x: mousePosition.x * -30,
-              y: mousePosition.y * -30,
-            }}
-            transition={{ type: "spring", damping: 30 }}
-          />
-        </>
-      )}
 
       <div className="container mx-auto px-4 pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         <motion.div 
@@ -99,7 +56,7 @@ export default function HeroSection() {
             className="inline-flex items-center gap-2 mb-6"
           >
             <Code2 className="w-5 h-5 text-primary" />
-            <span className="text-primary font-mono text-sm">console.log(&apos;Hello, World!&apos;);</span>
+            <span className="text-primary font-mono text-sm">{`console.log('Hello, World!');`}</span>
           </motion.div>
           
           <motion.h1 
@@ -108,7 +65,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl mb-1 sm:mb-2">I&apos;m</span>
+            <span className="block text-2xl sm:text-3xl md:text-5xl lg:text-6xl mb-1 sm:mb-2">{`I'm`}</span>
             <span className="block gradient-text text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl leading-tight">Vitalii Honcharuk</span>
           </motion.h1>
           
@@ -204,13 +161,8 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          suppressHydrationWarning
         >
-          {mounted && (
-            <Suspense fallback={<AtomLoadingPlaceholder />}>
-              <CSSAtom />
-            </Suspense>
-          )}
+          <CSSAtom />
         </motion.div>
       </div>
 

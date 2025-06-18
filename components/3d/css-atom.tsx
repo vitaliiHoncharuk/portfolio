@@ -48,7 +48,6 @@ export default function CSSAtom() {
       className="relative w-full h-full flex items-center justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      suppressHydrationWarning
     >
       <div
         className="atom-container relative w-72 h-72 md:w-80 md:h-80"
