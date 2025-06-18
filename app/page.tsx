@@ -38,8 +38,8 @@ const TestimonialsSection = dynamic(
   }
 );
 
-const ContactSectionNew = dynamic(
-  () => import("@/components/sections/contact-section-new"),
+const ContactSection = dynamic(
+  () => import("@/components/sections/contact-section"),
   {
     loading: () => <SectionSkeleton />,
   }
@@ -54,7 +54,7 @@ export default function Home() {
       <ProjectsSection />
       <SkillsSection />
       <TestimonialsSection />
-      <ContactSectionNew />
+      <ContactSection />
     </>
   );
 }
