@@ -6,6 +6,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import FloatingFAQ from '@/components/ui/floating-faq';
+import { WebVitals } from './web-vitals';
 
 // Optimized font loading with display swap for better performance
 const inter = Inter({ 
@@ -37,9 +38,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
-        <meta charSet="utf-8" />
+        <title>Senior React Developer</title>
       </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider 
@@ -57,6 +58,7 @@ export default function RootLayout({
           </div>
           <Toaster />
           <FloatingFAQ />
+          <WebVitals />
         </ThemeProvider>
       </body>
     </html>
