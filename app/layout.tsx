@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -46,13 +46,16 @@ export default function RootLayout({
               try {
                 if (localStorage.getItem('portfolio-theme') === 'dark' || (!localStorage.getItem('portfolio-theme'))) {
                   document.documentElement.classList.add('dark')
+                  document.documentElement.style.colorScheme = 'dark'
                 } else {
                   document.documentElement.classList.remove('dark')
+                  document.documentElement.style.colorScheme = 'light'
                 }
               } catch {}
             `,
           }}
         />
+        <title>Senior React Developer</title>
       </head>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider 
