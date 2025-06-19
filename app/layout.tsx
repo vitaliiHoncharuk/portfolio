@@ -40,21 +40,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.getItem('portfolio-theme') === 'dark' || (!localStorage.getItem('portfolio-theme'))) {
-                  document.documentElement.classList.add('dark')
-                  document.documentElement.style.colorScheme = 'dark'
-                } else {
-                  document.documentElement.classList.remove('dark')
-                  document.documentElement.style.colorScheme = 'light'
-                }
-              } catch {}
-            `,
-          }}
-        />
         <title>Senior React Developer</title>
       </head>
       <body className={`${inter.className} antialiased`}>
@@ -63,7 +48,6 @@ export default function RootLayout({
           defaultTheme="dark" 
           enableSystem={false}
           disableTransitionOnChange
-          storageKey="portfolio-theme"
         >
           <div className="flex flex-col min-h-screen">
             <Header />
