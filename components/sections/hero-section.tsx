@@ -23,30 +23,47 @@ const CSSAtom = dynamic(() => import("@/components/3d/css-atom"), {
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+  
+  // Parallax effects with different speeds for depth
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const atomY = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  
+  // Very subtle fade only at the very end
+  const opacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, 0.3]);
 
 
   return (
-    <motion.section
+    <section
       id="home"
       ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ opacity, scale }}
     >
-      {/* Enhanced background with multiple layers */}
-      <div className="absolute inset-0 mesh-gradient" />
-      <div className="absolute inset-0 hero-gradient" />
-      <div className="absolute inset-0 noise" />
+      {/* Background layers with parallax */}
+      <motion.div 
+        className="absolute inset-0"
+        style={{ y: backgroundY }}
+      >
+        <div className="absolute inset-0 mesh-gradient" />
+        <div className="absolute inset-0 hero-gradient" />
+        <div className="absolute inset-0 noise" />
+      </motion.div>
       
 
-      <div className="container mx-auto px-4 pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+      <motion.div 
+        className="container mx-auto px-4 pt-20 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12"
+        style={{ opacity }}
+      >
         <motion.div 
           className="w-full lg:w-1/2 max-w-2xl"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          style={{ y: contentY }}
         >
           {/* Animated greeting */}
           <motion.div
@@ -161,11 +178,32 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
+          style={{ y: atomY }}
         >
           <CSSAtom />
         </motion.div>
-      </div>
+      </motion.div>
 
-    </motion.section>
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        style={{ opacity }}
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="cursor-pointer"
+          onClick={() => {
+            document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        >
+          <ArrowDown className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors" />
+        </motion.div>
+      </motion.div>
+
+    </section>
   );
 }

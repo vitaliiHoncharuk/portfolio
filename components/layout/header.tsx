@@ -19,12 +19,9 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Set mounted state to true after component mounts
-    setMounted(true)
-    
+
     const handleScroll = () => {
       if (typeof window === 'undefined') return
       
