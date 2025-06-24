@@ -182,6 +182,7 @@ export default function ContactSectionNew() {
 
   return (
     <section 
+      id="contact"
       ref={sectionRef}
       className="relative min-h-screen py-20 overflow-hidden"
       style={{ height: "100vh" }}

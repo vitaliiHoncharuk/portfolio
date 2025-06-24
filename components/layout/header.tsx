@@ -12,7 +12,8 @@ const navItems = [
   { name: 'Experience', href: '#experience', number: '02' },
   { name: 'Projects', href: '#projects', number: '03' },
   { name: 'Skills', href: '#skills', number: '04' },
-  { name: 'Contact', href: '#contact', number: '05' },
+  { name: 'Testimonials', href: '#testimonials', number: '05' },
+  { name: 'Contact', href: '#contact', number: '06' },
 ]
 
 export default function Header() {
@@ -28,12 +29,16 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50)
       
       // Update active section based on scroll position
-      const sections = ['home', 'about', 'experience', 'projects', 'skills', 'contact']
-      for (const section of sections) {
+      const sections = ['home', 'about', 'experience', 'projects', 'skills', 'testimonials', 'contact']
+      const scrollPosition = window.scrollY + 100
+      
+      // Check sections from bottom to top for better accuracy
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
         const element = document.getElementById(section)
         if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          const offsetTop = element.offsetTop
+          if (scrollPosition >= offsetTop) {
             setActiveSection(section)
             break
           }
